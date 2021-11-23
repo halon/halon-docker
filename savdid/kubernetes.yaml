@@ -1,0 +1,231 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: savdid
+data:
+  savdid.conf: |-
+    pidfile: /var/run/savdid.pid
+    user: savdid
+    group: savdid
+    threadcount: 30
+    maxqueuedsessions: 50
+    virusdatadir: /var/sav/vdbs
+    idedir: /var/sav/vdbs
+
+    onexception: REQUEST
+    onrequest: REQUEST
+
+    log {
+        type: CONSOLE
+        loglevel: 0
+    }
+    channel {
+        commprotocol {
+            type: IP
+            port: 4010
+            requesttimeout: 120
+            sendtimeout: 2
+            recvtimeout: 5
+        }
+        scanprotocol {
+            type: SSSP
+            allowscandata: YES
+            allowscanfile: NO
+            maxscandata: 0
+            logrequests: NO
+        }
+        scanner {
+            type: SAVI
+            inprocess: YES
+            maxscantime: 3
+            maxrequesttime: 10
+            contextstr: Genes/Extn/ProdVer OEM:Email:1.0.0
+            savigrp: GrpSuper 1
+            savists: Xml 1
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vdbs
+data:
+  update.sh: |-
+    #!/bin/sh
+
+    /opt/savdid/bin/update.sh https://sophos.halon.io/1/XXXXXXXXXX
+
+    status=$?
+
+    if [ $status -eq 2 ]; then
+        # An exit status of 2 means that an update was available which requires the deployment to restart
+        kubectl rollout restart deployment/savdid
+        exit 0
+    fi
+
+    exit $status
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: vdbs
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: vdbs
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: vdbs
+  local:
+    path: /vdbs
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node-1
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: vdbs
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: vdbs
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: vdbs
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: vdbs
+rules:
+  - apiGroups:
+    - apps
+    - extensions
+    resources:
+    - deployments
+    resourceNames:
+    - savdid
+    verbs:
+    - get
+    - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: vdbs
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: vdbs
+subjects:
+  - kind: ServiceAccount
+    name: vdbs
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: vdbs
+spec:
+  schedule: "*/10 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: vdbs
+            image: savdid:2.6.0
+            command:
+            - /bin/sh
+            - /usr/local/bin/savdid-update
+            volumeMounts:
+            - mountPath: /usr/local/bin/savdid-update
+              subPath: update.sh
+              name: vdbs-update
+            - mountPath: /var/sav/vdbs
+              name: vdbs
+          restartPolicy: OnFailure
+          volumes:
+          - name: vdbs-update
+            configMap:
+              name: vdbs
+          - name: vdbs
+            persistentVolumeClaim:
+              claimName: vdbs
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: savdid
+  labels:
+    app: savdid
+spec:
+  ports:
+  - port: 4010
+    name: socket
+  selector:
+    app: savdid
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: savdid
+  labels:
+    app: savdid
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: savdid
+  template:
+    metadata:
+      labels:
+        app: savdid
+    spec:
+      containers:
+      - name: savdid
+        image: savdid:2.6.0
+        ports:
+        - containerPort: 4010
+          name: socket
+        readinessProbe:
+          tcpSocket:
+            port: 4010
+        livenessProbe:
+          tcpSocket:
+            port: 4010
+        volumeMounts:
+        - mountPath: /usr/local/savdi
+          name: config
+        - mountPath: /var/sav/vdbs
+          name: vdbs
+      volumes:
+      - name: config
+        configMap:
+          name: savdid
+      - name: vdbs
+        persistentVolumeClaim:
+          claimName: vdbs
+      securityContext:
+        fsGroup: 1000

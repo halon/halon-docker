@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ctipd
+data:
+  ctipd.conf: |
+    [General]
+    RunAsUser=ctipd
+    RunAsGroup=ctipd
+
+    [IPRep]
+    ServerAddress=iprep%d.halon.ctmail.com
+    AdditionalConnStr=;HttpConnPoolSize=40
+    LicenseKey=xxxxxxxxxxxxxxxxxxxx
+    CacheMaxRecords=100000
+    CacheFileName=/tmp/ctipd.cache
+    CacheSaveInterval=60
+    RequestConcurrency=3000
+
+    [HTTP]
+    Enabled=yes
+    Port=8080
+    MaxThreads=100
+    InitialThreads=0
+    ReceiveTimeout=5000
+    ListenBackLog=1024
+
+    [UDP]
+    Enabled=no
+
+    [RBL]
+    Enabled=no
+
+    [Stats]
+    Enabled=no
+
+    [DecisionManager]
+    Enabled=yes
+    MaxRecords=100000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ctipd
+  labels:
+    app: ctipd
+spec:
+  ports:
+  - port: 8080
+    name: socket
+  selector:
+    app: ctipd
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ctipd
+  labels:
+    app: ctipd
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ctipd
+  template:
+    metadata:
+      labels:
+        app: ctipd
+    spec:
+      containers:
+      - name: ctipd
+        image: ctipd:4.01.0005.1
+        ports:
+        - containerPort: 8080
+          name: socket
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+        volumeMounts:
+        - mountPath: /etc/ctipd
+          name: config
+      volumes:
+      - name: config
+        configMap:
+          name: ctipd

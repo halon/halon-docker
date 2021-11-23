@@ -1,0 +1,34 @@
+version: "5.8"
+servers:
+  - id: default
+    transport: mx
+transportgroups:
+  - id: default
+    retry:
+      count: 30
+      intervals:
+        - interval: 60
+        - interval: 900
+        - interval: 3600
+          notify: true
+        - interval: 7200
+        - interval: 10800
+    dsn:
+      transport: mx
+    transports:
+      - id: mx
+        session:
+          tls:
+            mode: dane
+resolver:
+  cache:
+    size: 10000
+plugins:
+  - id: rate
+    config:
+      port: 5002
+      address: rated.default.svc.cluster.local
+  - id: dlp
+    config:
+      port: 5004
+      address: dlpd.default.svc.cluster.local

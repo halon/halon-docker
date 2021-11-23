@@ -1,0 +1,20 @@
+version: "5.8"
+servers:
+  - id: default
+    listeners:
+      - port: 25
+plugins:
+  - id: rate
+    config:
+      reresolve: 5
+environment:
+  uuid:
+    version: 4
+  controlsocket:
+    port: 5000
+  privdrop:
+    user: smtpd
+    group: smtpd
+  umask: "0027"
+  rlimit:
+    nofile: 70000

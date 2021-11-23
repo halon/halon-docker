@@ -1,0 +1,5 @@
+version: "5.8"
+environment:
+  controlsockets:
+    smtpd:
+      port: 5000

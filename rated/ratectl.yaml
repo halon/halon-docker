@@ -1,0 +1,4 @@
+version: "5.8"
+environment:
+  controlsocket:
+    port: 5001

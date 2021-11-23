@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rated
+data:
+  ratectl.yaml: |-
+    version: "5.8"
+    environment:
+      controlsocket:
+        port: 5001
+  rated-app.yaml: |-
+    version: "5.8"
+    peers:
+      - address: rated.default.svc.cluster.local
+        expand: true
+  rated.yaml: |
+    version: "5.8"
+    # HMAC-SHA1 key for cluster synchronisation
+    key: a3faf19660fea508afaab8648b4aa3b9f685acd0
+    reresolve: 5
+    environment:
+      controlsocket:
+        port: 5001
+      socket:
+        port: 5002
+      privdrop:
+        user: rated
+        group: rated
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rated
+  labels:
+    app: rated
+spec:
+  ports:
+  - port: 5002
+    name: socket
+  - port: 13131
+    name: sync
+  clusterIP: None
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+    - IPv4
+  selector:
+    app: rated
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rated
+  labels:
+    app: rated
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rated
+  template:
+    metadata:
+      labels:
+        app: rated
+    spec:
+      containers:
+      - name: rated
+        image: rated:5.8.0
+        ports:
+        - containerPort: 5001
+          name: controlsocket
+        - containerPort: 5002
+          name: socket
+        - containerPort: 13131
+          name: sync
+        readinessProbe:
+          tcpSocket:
+            port: 5001 # 5002 is UDP so it cannot be used
+        livenessProbe:
+          tcpSocket:
+            port: 5001 # 5002 is UDP so it cannot be used
+        volumeMounts:
+        - mountPath: /etc/halon
+          name: config
+      volumes:
+      - name: config
+        configMap:
+          name: rated

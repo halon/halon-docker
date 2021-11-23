@@ -1,0 +1,182 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smtpd
+data:
+  halonctl.yaml: |
+    version: "5.8"
+    environment:
+      controlsockets:
+        smtpd:
+          port: 5000
+  smtpd-app.yaml: |
+    version: "5.8"
+    servers:
+      - id: default
+        transport: mx
+    transportgroups:
+      - id: default
+        retry:
+          count: 30
+          intervals:
+            - interval: 60
+            - interval: 900
+            - interval: 3600
+              notify: true
+            - interval: 7200
+            - interval: 10800
+        dsn:
+          transport: mx
+        transports:
+          - id: mx
+            session:
+              tls:
+                mode: dane
+    resolver:
+      cache:
+        size: 10000
+    plugins:
+      - id: rate
+        config:
+          port: 5002
+          address: rated.default.svc.cluster.local
+      - id: dlp
+        config:
+          port: 5004
+          address: dlpd.default.svc.cluster.local
+  smtpd.yaml: |
+    version: "5.8"
+    servers:
+      - id: default
+        listeners:
+          - port: 25
+    plugins:
+      - id: rate
+        config:
+          reresolve: 5
+    environment:
+      uuid:
+        version: 4
+      controlsocket:
+        port: 5000
+      privdrop:
+        user: smtpd
+        group: smtpd
+      umask: "0027"
+      rlimit:
+        nofile: 70000
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: spool
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: spool-1
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: spool
+  local:
+    path: /spool-1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node-1
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: spool-2
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: spool
+  local:
+    path: /spool-2
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node-1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smtpd
+  labels:
+    app: smtpd
+spec:
+  ports:
+  - port: 25
+    name: smtp
+  clusterIP: None
+  selector:
+    app: smtpd
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: smtpd
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: smtpd
+  template:
+    metadata:
+      labels:
+        app: smtpd
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: smtpd
+        image: smtpd:5.8.0
+        ports:
+        - containerPort: 5000
+          name: controlsocket
+        - containerPort: 25
+          name: smtp
+        readinessProbe:
+          tcpSocket:
+            port: 25
+        livenessProbe:
+          tcpSocket:
+            port: 25
+        volumeMounts:
+        - name: spool
+          mountPath: /var/spool/halon/queue
+        - mountPath: /etc/halon
+          name: config
+      volumes:
+      - name: config
+        configMap:
+          name: smtpd
+      securityContext:
+        fsGroup: 1000
+  volumeClaimTemplates:
+  - metadata:
+      name: spool
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: spool
+      resources:
+        requests:
+          storage: 10Gi
+  serviceName: smtpd
