@@ -1,0 +1,22 @@
+version: "5.8"
+listeners:
+  - port: 80
+hosts:
+  - address: smtpd.default.svc.cluster.local
+    port: 80
+    expand: true
+    processes:
+      - smtpd
+  - address: rated.default.svc.cluster.local
+    port: 80
+    expand: true
+    processes:
+      - rated
+reresolve: 5
+users:
+  - username: admin
+    password: $2y$12$BzWuHfwX9qDhhomp4Oe/5.7FYwrk1sQfytTeoosv7tqXv/D8hOebO
+environment:
+  privdrop:
+    user: web
+    group: web

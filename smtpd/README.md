@@ -33,7 +33,7 @@ ConfigMap        | `smtpd`   | The configuration files, `plugins` can be removed
 StorageClass     | `spool`   | A storage class for the email queue spool                                                                           |
 PersistentVolume | `spool-1` | A local PV for the email queue spool, `path` and `nodeAffinity` must be adjusted to match your environment          |
 PersistentVolume | `spool-2` | A local PV for the email queue spool, `path` and `nodeAffinity` must be adjusted to match your environment          |
-Service          | `smtpd`   | A headless service listening on port `25`                                                                           |
+Service          | `smtpd`   | A headless service listening on port `25` and `80` that in order to work correctly needs to be single-stack       |
 StatefulSet      | `smtpd`   | A stateful set where each pod automatically gets assigned it's own PV, see `spool-1` and `spool-2` above            |
 
 The objects can be applied using the below command.
