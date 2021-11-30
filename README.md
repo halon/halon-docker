@@ -11,6 +11,8 @@ Below are the components we currently have instructions for. We also have a sepa
 | `smtpd`   | The main MTA process              | [Link](smtpd/README.md) |
 | `rated`   | Rate limiting implementation      | [Link](rated/README.md) |
 | `dlpd`    | Data Loss Prevention (DLP) engine | [Link](dlpd/README.md)  |
+| `api`     | HTTP/JSON API                     | [Link](api/README.md)   |
+| `web`     | Web administration                | [Link](web/README.md)   |
 
 ## Threat protection
 
