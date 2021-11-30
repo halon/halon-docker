@@ -1,0 +1,10 @@
+version: "5.8"
+listeners:
+  - port: 80
+environment:
+  privdrop:
+    user: api
+    group: api
+  controlsockets:
+    smtpd:
+      port: 5000
