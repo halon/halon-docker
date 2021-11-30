@@ -27,7 +27,7 @@ Below are the objects that the [sample configuration](kubernetes.yaml) include.
 
 Kind       | Name    | Description                                                                                                      |
 ---------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
-ConfigMap  | `rated` | The configuration files, `key` must be substituted with yours own HMAC-SHA1 key                                  |
+ConfigMap  | `rated` | The configuration files, `key` must be substituted with your own HMAC-SHA1 key                                  |
 Service    | `rated` | A headless service listening on port `5002` and `13131` that in order to work correctly needs to be single-stack |
 Deployment | `rated` | A regular deployment of a replica set                                                                            |
 
