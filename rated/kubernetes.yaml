@@ -37,8 +37,10 @@ spec:
   ports:
   - port: 5002
     name: socket
+    protocol: UDP
   - port: 13131
     name: sync
+    protocol: UDP
   clusterIP: None
   ipFamilyPolicy: SingleStack
   ipFamilies:
@@ -70,8 +72,10 @@ spec:
           name: controlsocket
         - containerPort: 5002
           name: socket
+          protocol: UDP
         - containerPort: 13131
           name: sync
+          protocol: UDP
         readinessProbe:
           tcpSocket:
             port: 5001 # 5002 is UDP so it cannot be used
