@@ -103,9 +103,6 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 80
-        livenessProbe:
-          tcpSocket:
-            port: 80
         volumeMounts:
         - mountPath: /etc/halon
           name: config
