@@ -75,9 +75,6 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 5001 # 5002 is UDP so it cannot be used
-        livenessProbe:
-          tcpSocket:
-            port: 5001 # 5002 is UDP so it cannot be used
         volumeMounts:
         - mountPath: /etc/halon
           name: config

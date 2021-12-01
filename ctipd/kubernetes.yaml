@@ -76,9 +76,6 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 8080
-        livenessProbe:
-          tcpSocket:
-            port: 8080
         volumeMounts:
         - mountPath: /etc/ctipd
           name: config
