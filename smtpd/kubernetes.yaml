@@ -185,9 +185,6 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 80
-        livenessProbe:
-          tcpSocket:
-            port: 80
         volumeMounts:
         - name: spool
           mountPath: /var/spool/halon/queue
