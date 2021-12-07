@@ -21,7 +21,7 @@ docker build -t smtpd:5.8.0 -f images/ubuntu-20.04/Dockerfile \
              .
 ```
 
-The `halon-extras-rate` and `halon-extras-dlp` packages can be removed from the container image if the `rated` and `dlpd` containers are not going to be deployed.
+The `halon-extras-rate`, `halon-extras-dlp` and `halon-extras-cyren` packages can be removed from the container image if the `rated`, `dlpd`, `ctasd` and `ctipd` containers are not going to be deployed.
 
 ## Kubernetes
 

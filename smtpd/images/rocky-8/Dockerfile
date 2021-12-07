@@ -12,7 +12,7 @@ RUN echo "baseurl=https://${HALON_REPO_USER}:${HALON_REPO_PASS}@repo.halon.io/di
 RUN echo "gpgcheck=1" >> /etc/yum.repos.d/Halon.repo
 RUN echo "gpgkey=https://raw.githubusercontent.com/halon/changelog/master/pgp-keys/7F0A73B5.asc" >> /etc/yum.repos.d/Halon.repo
 RUN echo "enabled=1" >> /etc/yum.repos.d/Halon.repo
-RUN yum install -y halon-5.8.0 halon-extras-rate-1.0.0 halon-extras-dlp-1.0.0
+RUN yum install -y halon-5.8.0 halon-extras-rate-1.0.0 halon-extras-dlp-1.0.0 halon-extras-cyren-1.0.0
 
 RUN /usr/bin/install -d /var/run/halon
 ENV LD_LIBRARY_PATH=/opt/halon/lib/:$LD_LIBRARY_PATH
