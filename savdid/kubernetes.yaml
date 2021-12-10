@@ -205,7 +205,7 @@ spec:
     spec:
       containers:
       - name: savdid
-        image: savdid:2.6.0
+        image: savdid:3.83.3
         ports:
         - containerPort: 4010
           name: socket
