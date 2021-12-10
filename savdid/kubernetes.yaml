@@ -151,7 +151,7 @@ spec:
         spec:
           containers:
           - name: vdbs
-            image: savdid:2.6.0
+            image: savdid:3.83.3
             command:
             - /bin/sh
             - /usr/local/bin/savdid-update
