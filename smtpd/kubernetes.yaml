@@ -146,7 +146,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - name: smtpd
-        image: smtpd:5.8.1
+        image: smtpd:5.8.3
         ports:
         - containerPort: 5000
           name: controlsocket
