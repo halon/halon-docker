@@ -12,8 +12,9 @@ data:
 
     [Connectivity]
     License_key_code=xxxxxxxxxxxxxxxxxxxx
-    Server_address=Resolver%d.halon.ctmail.com
-    Additional=WebSecZeroLatencyMode=0;UseLibcurl=0;AsyncThreads=0;HttpConnPoolSize=50;Hash=65533;
+    Server_address=resolver%d.halon.ctmail.com
+    # Server_address=resolver%d-eu-halon.ctmail.com
+    Additional=TempDir=/tmp/ctasd/;WebSecZeroLatencyMode=0;UseLibcurl=0;AsyncThreads=0;HttpConnPoolSize=50;Hash=65533;
     Cache_max_records=100000
 
     [Security]
@@ -31,6 +32,7 @@ data:
     [Spamd]
 
     [AV]
+    AVDefPath=/tmp/ctasd/avdef/
 
     [Stats]
 
@@ -71,7 +73,7 @@ spec:
     spec:
       containers:
       - name: ctasd
-        image: ctasd:5.01.0008.1
+        image: ctasd:5.5.1
         ports:
         - containerPort: 8088
           name: socket

@@ -10,6 +10,7 @@ data:
 
     [IPRep]
     ServerAddress=iprep%d.halon.ctmail.com
+    # ServerAddress=iprep%d-eu-halon.ctmail.com
     AdditionalConnStr=;HttpConnPoolSize=40
     LicenseKey=xxxxxxxxxxxxxxxxxxxx
     CacheMaxRecords=100000
@@ -69,7 +70,7 @@ spec:
     spec:
       containers:
       - name: ctipd
-        image: ctipd:4.01.0005.1
+        image: ctipd:4.5.1
         ports:
         - containerPort: 8080
           name: socket

@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
       - name: dlpd
-        image: dlpd:5.9.1
+        image: dlpd:5.9.2
         ports:
         - containerPort: 5003
           name: controlsocket

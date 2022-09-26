@@ -37,11 +37,13 @@ data:
         scanner {
             type: SAVI
             inprocess: YES
-            maxscantime: 3
-            maxrequesttime: 10
+            maxscantime: 30
+            maxrequesttime: 30
+            enablesandbox: YES
             contextstr: Genes/Extn/ProdVer OEM:Email:1.0.0
             savigrp: GrpSuper 1
             savists: Xml 1
+            savists: Msi 1
         }
     }
 ---
@@ -151,7 +153,7 @@ spec:
         spec:
           containers:
           - name: vdbs
-            image: savdid:3.83.3
+            image: savdid:3.85.1
             command:
             - /bin/sh
             - /usr/local/bin/savdid-update
@@ -205,7 +207,7 @@ spec:
     spec:
       containers:
       - name: savdid
-        image: savdid:3.83.3
+        image: savdid:3.85.1
         ports:
         - containerPort: 4010
           name: socket
@@ -213,7 +215,7 @@ spec:
           tcpSocket:
             port: 4010
         volumeMounts:
-        - mountPath: /usr/local/savdi
+        - mountPath: /etc/savdid
           name: config
         - mountPath: /var/sav/vdbs
           name: vdbs

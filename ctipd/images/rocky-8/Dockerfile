@@ -12,9 +12,9 @@ RUN echo "baseurl=https://${HALON_REPO_USER}:${HALON_REPO_PASS}@repo.halon.io/di
 RUN echo "gpgcheck=1" >> /etc/yum.repos.d/Halon.repo
 RUN echo "gpgkey=https://raw.githubusercontent.com/halon/changelog/master/pgp-keys/7F0A73B5.asc" >> /etc/yum.repos.d/Halon.repo
 RUN echo "enabled=1" >> /etc/yum.repos.d/Halon.repo
-RUN yum install -y ctipd-4.01.0005.1
+RUN yum install -y ctipd-4.5.1
 
 RUN groupadd -g 1000 ctipd
 RUN useradd -u 1000 -g 1000 ctipd
 
-CMD [ "/opt/ctipd/bin/ctipd.bin", "-s", "16", "-i" ]
+CMD [ "/opt/ctipd/bin/ctipd.bin", "-i", "-c", "/etc/ctipd/ctipd.conf" ]
