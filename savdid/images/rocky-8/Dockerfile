@@ -1,4 +1,4 @@
-FROM rockylinux/rockylinux:8
+FROM rockylinux:8
 LABEL org.opencontainers.image.authors="support@halon.io"
 
 ARG HALON_REPO_USER
