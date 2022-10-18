@@ -9,7 +9,6 @@ Below are the linux distributions we currently have instructions for.
 | `ubuntu-20.04` | Ubuntu 20.04.3 LTS (Focal Fossa)   |
 | `ubuntu-18.04` | Ubuntu 18.04.6 LTS (Bionic Beaver) |
 | `rocky-8`      | Rocky Linux 8                      |
-| `centos-8`     | CentOS Linux 8                     |
 | `centos-7`     | CentOS Linux 7                     |
 
 To build a container image, simply run the below command, substituting `ubuntu-20.04` with any of the distributions above and the example credentials with those provided by us.
