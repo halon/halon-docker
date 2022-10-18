@@ -14,13 +14,13 @@ Below are the linux distributions we currently have instructions for.
 To build a container image, simply run the below command, substituting `ubuntu-20.04` with any of the distributions above and the example credentials with those provided by us.
 
 ```
-docker build -t smtpd:5.9.2 -f images/ubuntu-20.04/Dockerfile \
+docker build -t smtpd:5.10.0 -f images/ubuntu-20.04/Dockerfile \
              --build-arg HALON_REPO_USER=exampleuser \
              --build-arg HALON_REPO_PASS=examplepass \
              .
 ```
 
-The `halon-extras-rate`, `halon-extras-dlp` and `halon-extras-cyren` packages can be removed from the container image if the `rated`, `dlpd`, `ctasd` and `ctipd` containers are not going to be deployed.
+The `halon-extras-rate`, `halon-extras-dlp`, `halon-extras-cyren` and `halon-extras-sophos` packages can be removed from the container image if the `rated`, `dlpd`, `ctasd`, `ctipd` and `savdid` containers are not going to be deployed.
 
 ## Kubernetes
 
