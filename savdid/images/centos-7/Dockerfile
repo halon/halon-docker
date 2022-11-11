@@ -23,7 +23,7 @@ RUN echo "repo_gpgcheck=1" >> /etc/yum.repos.d/kubernetes.repo
 RUN echo "gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg" >> /etc/yum.repos.d/kubernetes.repo
 RUN yum install -y kubectl
 
-RUN yum install -y wget zip
+RUN yum install -y wget zip findutils
 
 RUN groupadd -g 1000 savdid
 RUN useradd -u 1000 -g 1000 savdid
