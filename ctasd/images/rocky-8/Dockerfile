@@ -16,5 +16,9 @@ RUN yum install -y ctasd-5.5.1
 
 RUN groupadd -g 1000 ctasd
 RUN useradd -u 1000 -g 1000 ctasd
+RUN mkdir /tmp/ctasd
+RUN mkdir /tmp/ctasd/avdef
+RUN chown ctasd:ctasd /tmp/ctasd
+RUN chown ctasd:ctasd /tmp/ctasd/avdef
 
 CMD [ "/opt/ctasd/bin/ctasd.bin", "-s", "16", "-i" ]
