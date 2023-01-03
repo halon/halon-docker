@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sasid
+data:
+  sasid.conf: |-
+    ##############################################################
+    #                                                            #
+    #                   Engine Config                            #
+    #                                                            #
+    ##############################################################
+    LOG_FILE = /var/log/sasid.log
+    DEBUG_LEVEL = ERROR
+    CONSOL_OUTPUT = TRUE
+    LOG_SIZE = 10485760 
+    SOPHOS_SCANPDF=1
+    SXL_ENABLE = TRUE
+
+    ##############################################################
+    #                                                            #
+    #                   Daemon Config                            #
+    #                                                            #
+    ##############################################################
+    LISTENING_PORT = 25315
+    LISTENING_ADDR = 0.0.0.0
+    TCP_NODELAY = TRUE
+    SPAMENGINE_DB_PATH = /var/sasid/data
+    SPAMENGINE_DB_NAME = asdb.antispam
+    CLIENT_TIMEOUT = 30 
+    MAX_CONNECTIONS = 12
+    MAX_THREAD = 4
+    WEIGHT_ENABLE = TRUE
+
+    ##############################################################
+    #                                                            #
+    #                    Precompile Config                       #
+    #                                                            #
+    ##############################################################
+    #------Key to enable Precompiled Feature to get remotely compiled Signature DB ,credentials should be provided via command line while running the daemon------
+    ENABLE_PRECOMPILED_SIGS = TRUE
+
+    #--------NOTE: Mandatory to enable all below keys of precompile config, if ENABLE_PRECOMPILED_SIGS enabled (keep disabled otherwise)-------
+
+    #-------Key to make SASI fetch for new Signature at fixed interval ( in seconds)------- ( Should not be set less than 350sec )
+    SIG_UPDATE_TIMEOUT = 480
+
+    #-------URL path to download precompiled signature , credentials should be provided via command line while running the daemon -------
+    SERVER_URL = https://downloads.sophos.com/sophos/products/full/OEM/SASi/data/v5/x86_64
+
+    #-------Filepath where packaged Rsync binary resides-------
+    RSYNC_PATH = /var/sasid/rsync
+
+    #-------Filepath(along with filename) of CA Certificate ( of domain mentioned in SERVER_URL)
+    CA_CERT_PATH = /opt/sasid/certs/cacert.pem
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sasid
+  labels:
+    app: sasid
+spec:
+  ports:
+  - port: 25315
+    name: socket
+  selector:
+    app: sasid
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sasid
+  labels:
+    app: sasid
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sasid
+  template:
+    metadata:
+      labels:
+        app: sasid
+    spec:
+      containers:
+      - name: sasid
+        image: sasid:5.1.3
+        env:
+        - name: SASI_USER
+          value: "username"
+        - name: SASI_PASSWORD
+          value: "password"
+        ports:
+        - containerPort: 25315
+          name: socket
+        readinessProbe:
+          tcpSocket:
+            port: 25315
+        volumeMounts:
+        - mountPath: /etc/sasid
+          name: config
+      volumes:
+      - name: config
+        configMap:
+          name: sasid
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000

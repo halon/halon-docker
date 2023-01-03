@@ -12,14 +12,16 @@ RUN echo "baseurl=https://${HALON_REPO_USER}:${HALON_REPO_PASS}@repo.halon.io/di
 RUN echo "gpgcheck=1" >> /etc/yum.repos.d/Halon.repo
 RUN echo "gpgkey=https://raw.githubusercontent.com/halon/changelog/master/pgp-keys/7F0A73B5.asc" >> /etc/yum.repos.d/Halon.repo
 RUN echo "enabled=1" >> /etc/yum.repos.d/Halon.repo
-RUN yum install -y halon-5.10.0 halon-extras-rate-1.1.0 halon-extras-dlp-1.1.0 halon-extras-cyren-1.1.0 halon-extras-sophos-1.1.0
+RUN yum install -y sasid-5.1.3
 
-RUN /usr/bin/install -d /var/run/halon
-ENV LD_LIBRARY_PATH=/opt/halon/lib/:$LD_LIBRARY_PATH
+RUN groupadd -g 1000 sasid
+RUN useradd -u 1000 -g 1000 sasid
 
-RUN groupadd -g 1000 smtpd
-RUN useradd -u 1000 -g 1000 smtpd
-RUN chown smtpd:smtpd /var/spool/halon/
-RUN chown smtpd:smtpd /var/spool/halon/tmp
+RUN mkdir -p /var/sasid/data
+RUN chown sasid:sasid /var/sasid/data
+RUN chmod 750 /var/sasid/data
+RUN mkdir -p /var/sasid/rsync
+RUN chown sasid:sasid /var/sasid/rsync
+RUN chmod 750 /var/sasid/rsync
 
-CMD [ "/opt/halon/sbin/smtpd", "-f" ]
+CMD [ "/opt/sasid/bin/sasid", "-c", "/etc/sasid/sasid.conf" ]

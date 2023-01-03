@@ -19,3 +19,4 @@ Below are the components we currently have instructions for.
 | `ctipd`   | Cyren IP Reputation | [Link](ctipd/README.md)  |
 | `ctasd`   | Cyren Anti-Spam     | [Link](ctasd/README.md)  |
 | `savdid`  | Sophos Anti-Virus   | [Link](savdid/README.md) |
+| `sasid`   | Sophos Anti-spam    | [Link](sasid/README.md)  |
