@@ -21,7 +21,7 @@ docker build -t smtpd:5.10.0 -f images/ubuntu-22.04/Dockerfile \
              .
 ```
 
-The `halon-extras-rate`, `halon-extras-dlp`, `halon-extras-cyren` and `halon-extras-sophos` packages can be removed from the container image if the `rated`, `dlpd`, `ctasd`, `ctipd`, `savdid` and `sasid` containers are not going to be deployed.
+The `halon-extras-rate`, `halon-extras-dlp` and `halon-extras-sophos` packages can be removed from the container image if the `rated`, `dlpd`, `ctasd`, `ctipd`, `savdid` and `sasid` containers are not going to be deployed.
 
 ## Kubernetes
 
