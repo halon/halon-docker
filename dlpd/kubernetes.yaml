@@ -4,15 +4,15 @@ metadata:
   name: dlpd
 data:
   dlpctl.yaml: |-
-    version: "5.10"
+    version: "5.11"
     environment:
       controlsocket:
         port: 5003
   dlpd-app.yaml: |-
-    version: "5.10"
+    version: "5.11"
     rules: []
   dlpd.yaml: |
-    version: "5.10"
+    version: "5.11"
     environment:
       controlsocket:
         port: 5003
@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
       - name: dlpd
-        image: dlpd:5.10.0
+        image: dlpd:5.11.3
         ports:
         - containerPort: 5003
           name: controlsocket
