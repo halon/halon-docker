@@ -15,7 +15,7 @@ Below are the linux distributions we currently have instructions for.
 To build a container image, simply run the below command, substituting `ubuntu-20.04` with any of the distributions above and the example credentials with those provided by us.
 
 ```
-docker build -t api:5.11.1 -f images/ubuntu-20.04/Dockerfile \
+docker build -t api:5.11.1 -f images/ubuntu-22.04/Dockerfile \
              --build-arg HALON_REPO_USER=exampleuser \
              --build-arg HALON_REPO_PASS=examplepass \
              .
