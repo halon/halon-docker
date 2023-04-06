@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: web:1.0.0
+        image: web:1.4.1
         ports:
         - containerPort: 80
           name: http
