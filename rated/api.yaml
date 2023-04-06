@@ -1,4 +1,4 @@
-version: "5.8"
+version: "5.11"
 listeners:
   - port: 80
 environment:
