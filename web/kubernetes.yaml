@@ -4,7 +4,7 @@ metadata:
   name: web
 data:
   web.yaml: |-
-    version: "5.8"
+    version: "1.4"
     listeners:
       - port: 80
     hosts:
