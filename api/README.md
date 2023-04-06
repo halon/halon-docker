@@ -12,7 +12,7 @@ Below are the linux distributions we currently have instructions for.
 | `centos-8`     | CentOS Linux 8                     |
 | `centos-7`     | CentOS Linux 7                     |
 
-To build a container image, simply run the below command, substituting `ubuntu-20.04` with any of the distributions above and the example credentials with those provided by us.
+To build a container image, simply run the below command, substituting `ubuntu-22.04` with any of the distributions above and the example credentials with those provided by us.
 
 ```
 docker build -t api:5.11.1 -f images/ubuntu-22.04/Dockerfile \
