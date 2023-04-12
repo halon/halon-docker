@@ -96,7 +96,7 @@ spec:
         - mountPath: /etc/halon
           name: config
       - name: api
-        image: api:5.11.1
+        image: api:5.12.0
         ports:
         - containerPort: 80
           name: http
