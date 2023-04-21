@@ -12,7 +12,7 @@ Below are the linux distributions we currently have instructions for.
 | `rocky-8`      | Rocky Linux 8                        |
 | `centos-7`     | CentOS Linux 7                       |
 
-To build a container image, simply run the below command, substituting `ubuntu-22.04` with any of the distributions above and the example credentials with those provided by us.
+To build a container image, simply clone the repository to your machine and from inside the halon-docker/rated directory run the below command, substituting `ubuntu-22.04` with any of the distributions above and the example credentials with those provided by us.
 
 ```
 docker build -t rated:5.12.0 -f images/ubuntu-22.04/Dockerfile \
