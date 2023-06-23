@@ -67,7 +67,7 @@ data:
         nofile: 70000
       licensekey: /license.key
   api.yaml: |
-    version: "5.11"
+    version: "5.12"
     listeners:
       - port: 80
     environment:
