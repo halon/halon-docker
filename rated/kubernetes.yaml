@@ -27,7 +27,7 @@ data:
         user: rated
         group: rated
   api.yaml: |
-    version: "5.11"
+    version: "5.12"
     listeners:
       - port: 80
     environment:
