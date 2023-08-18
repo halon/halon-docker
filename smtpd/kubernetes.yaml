@@ -67,7 +67,7 @@ data:
         nofile: 70000
       licensekey: /license.key
   api.yaml: |
-    version: "5.12"
+    version: "6.0"
     listeners:
       - port: 80
     environment:
@@ -178,7 +178,7 @@ spec:
         - mountPath: /etc/halon
           name: config
       - name: api
-        image: api:5.12.0
+        image: api:6.0.0
         ports:
         - containerPort: 80
           name: http
