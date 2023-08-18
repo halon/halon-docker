@@ -1,4 +1,4 @@
-version: "5.12"
+version: "6.0"
 environment:
   controlsocket:
     port: 5001

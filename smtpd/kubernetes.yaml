@@ -4,13 +4,13 @@ metadata:
   name: smtpd
 data:
   halonctl.yaml: |
-    version: "5.12"
+    version: "6.0"
     environment:
       controlsockets:
         smtpd:
           port: 5000
   smtpd-app.yaml: |
-    version: "5.12"
+    version: "6.0"
     servers:
       - id: default
         transport: mx
@@ -45,7 +45,7 @@ data:
           port: 5004
           address: dlpd.default.svc.cluster.local
   smtpd.yaml: |
-    version: "5.12"
+    version: "6.0"
     servers:
       - id: default
         listeners:
@@ -146,7 +146,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - name: smtpd
-        image: smtpd:5.12.0
+        image: smtpd:6.0.0
         ports:
         - containerPort: 5000
           name: controlsocket

@@ -1,4 +1,4 @@
-version: "5.12"
+version: "6.0"
 servers:
   - id: default
     listeners:
