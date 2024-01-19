@@ -8,7 +8,6 @@ Below are the linux distributions we currently have instructions for.
 | -------------- | -----------------------------------  |
 | `ubuntu-22.04` | Ubuntu 22.04.1 LTS (Jammy Jellyfish) |
 | `ubuntu-20.04` | Ubuntu 20.04.3 LTS (Focal Fossa)     |
-| `ubuntu-18.04` | Ubuntu 18.04.6 LTS (Bionic Beaver)   |
 | `rocky-8`      | Rocky Linux 8                        |
 | `centos-7`     | CentOS Linux 7                       |
 
