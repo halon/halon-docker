@@ -1,4 +1,4 @@
-version: "6.0"
+version: "6.1"
 peers:
   - address: rated.default.svc.cluster.local
     expand: true

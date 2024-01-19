@@ -4,13 +4,13 @@ metadata:
   name: smtpd
 data:
   halonctl.yaml: |
-    version: "6.0"
+    version: "6.1"
     environment:
       controlsockets:
         smtpd:
           port: 5000
   smtpd-app.yaml: |
-    version: "6.0"
+    version: "6.1"
     servers:
       - id: default
         transport: mx
@@ -45,7 +45,7 @@ data:
           port: 5004
           address: dlpd.default.svc.cluster.local
   smtpd.yaml: |
-    version: "6.0"
+    version: "6.1"
     servers:
       - id: default
         listeners:
@@ -65,6 +65,7 @@ data:
       umask: "0027"
       rlimit:
         nofile: 70000
+      licensekey: /license.key
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
@@ -146,7 +147,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - name: smtpd
-        image: smtpd:6.0.1
+        image: smtpd:6.1.1
         ports:
         - containerPort: 5000
           name: controlsocket
