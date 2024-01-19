@@ -4,7 +4,7 @@ metadata:
   name: web
 data:
   web.yaml: |-
-    version: "1.8"
+    version: "1.11"
     listeners:
       - port: 80
     hosts:
@@ -58,7 +58,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: web:1.8.0
+        image: web:1.11.0
         ports:
         - containerPort: 80
           name: http
