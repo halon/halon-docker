@@ -17,7 +17,7 @@ To build a container image, simply clone the repository to your machine and from
 docker build -t smtpd:6.1.1 -f images/ubuntu-22.04/Dockerfile \
              --build-arg HALON_REPO_USER=exampleuser \
              --build-arg HALON_REPO_PASS=examplepass \
-             .
+             images/ubuntu-22.04
 ```
 
 The `halon-extras-rate`, `halon-extras-dlp` and `halon-extras-sophos` packages can be removed from the container image if the `rated`, `dlpd`, `savdid` and `sasid` containers are not going to be deployed.

@@ -24,7 +24,7 @@ RUN useradd -u 1000 -g 1000 smtpd
 RUN chown smtpd:smtpd /var/spool/halon/
 RUN chown smtpd:smtpd /var/spool/halon/tmp
 
-COPY images/rocky-8/entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
