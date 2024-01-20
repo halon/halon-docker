@@ -18,3 +18,4 @@ environment:
   umask: "0027"
   rlimit:
     nofile: 70000
+  licensekey: /license.key
