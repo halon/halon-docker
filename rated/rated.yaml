@@ -1,4 +1,4 @@
-version: "6.1"
+version: "6.2"
 # HMAC-SHA1 key for cluster synchronisation
 key: a3faf19660fea508afaab8648b4aa3b9f685acd0
 reresolve: 5
