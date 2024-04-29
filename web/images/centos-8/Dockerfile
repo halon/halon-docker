@@ -10,11 +10,11 @@ RUN echo "baseurl=https://${HALON_REPO_USER}:${HALON_REPO_PASS}@repo.halon.io/di
 RUN echo "gpgcheck=1" >> /etc/yum.repos.d/Halon.repo
 RUN echo "gpgkey=https://raw.githubusercontent.com/halon/pgp-keys/master/pgp-keys/7F0A73B5.asc" >> /etc/yum.repos.d/Halon.repo
 RUN echo "enabled=1" >> /etc/yum.repos.d/Halon.repo
-RUN yum install -y halon-web-1.11.0
+RUN yum install -y halon-web-1.14.0
 
 ENV NODE_ENV=production
 
 RUN groupadd -g 1000 web
 RUN useradd -u 1000 -g 1000 web
 
-CMD [ "/opt/halon/web/node/bin/node", "/opt/halon/web/backend/src/bin/server.js" ]
+CMD [ "/opt/halon/web/node/bin/node", "/opt/halon/web/dist/bin/server.js" ]
