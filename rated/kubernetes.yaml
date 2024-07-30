@@ -4,17 +4,17 @@ metadata:
   name: rated
 data:
   ratectl.yaml: |-
-    version: "6.2"
+    version: "6.3"
     environment:
       controlsocket:
         port: 5001
   rated-app.yaml: |-
-    version: "6.2"
+    version: "6.3"
     peers:
       - address: rated.default.svc.cluster.local
         expand: true
   rated.yaml: |
-    version: "6.2"
+    version: "6.3"
     # HMAC-SHA1 key for cluster synchronisation
     key: a3faf19660fea508afaab8648b4aa3b9f685acd0
     reresolve: 5
@@ -66,7 +66,7 @@ spec:
     spec:
       containers:
       - name: rated
-        image: rated:6.2.0
+        image: rated:6.3.1
         ports:
         - containerPort: 5001
           name: controlsocket
