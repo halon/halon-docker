@@ -17,6 +17,7 @@ To build a container image, simply run the below command, substituting `ubuntu-2
 docker build -t web:1.16.0 -f images/ubuntu-22.04/Dockerfile \
              --build-arg HALON_REPO_USER=exampleuser \
              --build-arg HALON_REPO_PASS=examplepass \
+             --platform=linux/amd64 \
              .
 ```
 
