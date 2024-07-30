@@ -17,6 +17,7 @@ To build a container image, simply clone the repository to your machine and from
 docker build -t smtpd:6.3.1 -f images/ubuntu-22.04/Dockerfile \
              --build-arg HALON_REPO_USER=exampleuser \
              --build-arg HALON_REPO_PASS=examplepass \
+             --platform=linux/amd64 \
              images/ubuntu-22.04
 ```
 
