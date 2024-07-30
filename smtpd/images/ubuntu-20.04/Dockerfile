@@ -6,10 +6,8 @@ ENV HALON_REPO_USER=$HALON_REPO_USER
 ARG HALON_REPO_PASS
 ENV HALON_REPO_PASS=$HALON_REPO_PASS
 
-RUN apt-get update
-
-RUN apt-get install -y wget gnupg
-RUN apt-get install -y apt-transport-https
+RUN apt-get update && apt-get install -y wget gnupg
+RUN apt-get update && apt-get install -y apt-transport-https
 
 RUN wget -qO - https://raw.githubusercontent.com/halon/pgp-keys/master/pgp-keys/7F0A73B5.asc | apt-key add -
 RUN echo "deb https://repo.halon.io/ focal stable" >> /etc/apt/sources.list.d/halon.list
