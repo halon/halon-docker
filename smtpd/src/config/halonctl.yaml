@@ -1,5 +1,0 @@
-version: "6.3"
-environment:
-  controlsockets:
-    smtpd:
-      port: 5000

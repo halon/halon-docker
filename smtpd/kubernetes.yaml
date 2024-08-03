@@ -3,12 +3,6 @@ kind: ConfigMap
 metadata:
   name: smtpd
 data:
-  halonctl.yaml: |
-    version: "6.3"
-    environment:
-      controlsockets:
-        smtpd:
-          port: 5000
   smtpd-app.yaml: |
     version: "6.3"
     servers:
