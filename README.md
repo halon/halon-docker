@@ -2,7 +2,7 @@
 
 This repository contains instructions on how to build container images of our [Halon MTA](https://halon.io/product/) components as well as the [threat protection](https://halon.io/product/asav/) components we provide. It also includes sample configurations for deploying these container images on [K8s](https://kubernetes.io) (Kubernetes).
 
-Below are the components we currently have instructions for. We also have a separate [web](https://github.com/halon/halon-docker/tree/web) branch that includes examples on how to setup the [web administration](https://docs.halon.io/web/) and [HTTP/JSON API](https://docs.halon.io/manual/api_http_json.html) as well.
+Below are the components we currently have instructions for.
 
 ## Halon MTA
 
