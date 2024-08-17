@@ -93,7 +93,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node-1
+          - docker-desktop
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
