@@ -60,6 +60,17 @@ data:
       rlimit:
         nofile: 70000
       licensekey: /license.key
+  api.yaml: |
+    version: "6.3"
+    listeners:
+      - port: 80
+    environment:
+      privdrop:
+        user: api
+        group: api
+      controlsockets:
+        smtpd:
+          port: 5000
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
@@ -120,7 +131,12 @@ spec:
   ports:
   - port: 25
     name: smtp
+  - port: 80
+    name: api
   clusterIP: None
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+    - IPv4
   selector:
     app: smtpd
 ---
@@ -150,6 +166,19 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 25
+        volumeMounts:
+        - name: spool
+          mountPath: /var/spool/halon/queue
+        - mountPath: /etc/halon
+          name: config
+      - name: api
+        image: api:6.3.1
+        ports:
+        - containerPort: 80
+          name: http
+        readinessProbe:
+          tcpSocket:
+            port: 80
         volumeMounts:
         - name: spool
           mountPath: /var/spool/halon/queue

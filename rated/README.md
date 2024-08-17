@@ -1,5 +1,9 @@
 # Rate limiting implementation
 
+## Prerequisites
+
+Make sure that you have built the [HTTP/JSON API](../api/README.md) container image first.
+
 ## Build
 
 Below are the linux distributions we currently have instructions for.
@@ -25,11 +29,11 @@ docker build -t rated:6.3.1 -f images/ubuntu-22.04/Dockerfile \
 
 Below are the objects that the [sample configuration](kubernetes.yaml) include.
 
-Kind       | Name    | Description                                                                                                      |
----------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
-ConfigMap  | `rated` | The configuration files, `key` must be substituted with your own HMAC-SHA1 key                                  |
-Service    | `rated` | A headless service listening on port `5002` and `13131` that in order to work correctly needs to be single-stack |
-Deployment | `rated` | A regular deployment of a replica set                                                                            |
+Kind       | Name    | Description                                                                                                              |
+---------- | ------- | ------------------------------------------------------------------------------------------------------------------------ |
+ConfigMap  | `rated` | The configuration files, `key` must be substituted with your own HMAC-SHA1 key                                          |
+Service    | `rated` | A headless service listening on port `5002`, `13131` and `80` that in order to work correctly needs to be single-stack |
+Deployment | `rated` | A regular deployment of a replica set                                                                                    |
 
 The objects can be applied using the below command.
 
