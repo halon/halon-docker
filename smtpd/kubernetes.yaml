@@ -175,7 +175,7 @@ spec:
       labels:
         app: smtpd
     spec:
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 3600
       containers:
       - name: smtpd
         image: smtpd:6.3.1
