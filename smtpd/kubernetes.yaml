@@ -122,6 +122,27 @@ spec:
           - docker-desktop
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: spool-3
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: spool
+  local:
+    path: /spool-3
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - docker-desktop
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: smtpd
@@ -145,7 +166,7 @@ kind: StatefulSet
 metadata:
   name: smtpd
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: smtpd
