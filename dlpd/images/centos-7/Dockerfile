@@ -15,7 +15,6 @@ RUN echo "enabled=1" >> /etc/yum.repos.d/Halon.repo
 RUN yum install -y halon-dlpd-6.3.1
 
 RUN /usr/bin/install -d /var/run/halon
-ENV LD_LIBRARY_PATH=/opt/halon/lib/dlpd/:$LD_LIBRARY_PATH
 
 RUN groupadd -g 1000 dlpd
 RUN useradd -u 1000 -g 1000 dlpd
@@ -24,4 +23,4 @@ RUN chown dlpd:dlpd /var/spool/halon/tmp
 RUN /usr/bin/install -d var/spool/halon/tmp/dlpd
 RUN chown dlpd:dlpd /var/spool/halon/tmp/dlpd
 
-CMD [ "/opt/halon/sbin/dlpd", "-f" ]
+CMD ["sh", "-c", "exec env LD_LIBRARY_PATH=/opt/halon/lib/dlpd/:$LD_LIBRARY_PATH /opt/halon/sbin/dlpd -f"]

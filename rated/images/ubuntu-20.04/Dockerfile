@@ -13,9 +13,8 @@ RUN echo "machine repo.halon.io login ${HALON_REPO_USER} password ${HALON_REPO_P
 RUN apt-get update && apt-get install -y halon-rated=6.3.1
 
 RUN /usr/bin/install -d /var/run/halon
-ENV LD_LIBRARY_PATH=/opt/halon/lib/rated/:$LD_LIBRARY_PATH
 
 RUN groupadd -g 1000 rated
 RUN useradd -u 1000 -g 1000 rated
 
-CMD [ "/opt/halon/sbin/rated", "-f" ]
+CMD ["sh", "-c", "exec env LD_LIBRARY_PATH=/opt/halon/lib/rated/:$LD_LIBRARY_PATH /opt/halon/sbin/rated -f"]

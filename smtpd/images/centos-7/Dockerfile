@@ -17,7 +17,6 @@ RUN echo "enabled=1" >> /etc/yum.repos.d/Halon.repo
 RUN yum install -y halon-6.3.1 halon-extras-rate-1.1.0 halon-extras-dlp-1.1.0 halon-extras-sophos-1.1.0
 
 RUN /usr/bin/install -d /var/run/halon
-ENV LD_LIBRARY_PATH=/opt/halon/lib/:$LD_LIBRARY_PATH
 
 RUN groupadd -g 1000 smtpd
 RUN useradd -u 1000 -g 1000 smtpd
