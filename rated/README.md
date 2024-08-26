@@ -2,7 +2,13 @@
 
 ## Prerequisites
 
-Make sure that you have built the [HTTP/JSON API](../api/README.md) container image first.
+Make sure you have created the `halon` namespace first.
+
+```
+kubectl create namespace halon
+```
+
+Also make sure that you have built the [HTTP/JSON API](../api/README.md) container image first.
 
 ## Build
 

@@ -2,12 +2,12 @@ version: "1.16"
 listeners:
   - port: 80
 hosts:
-  - address: smtpd.default.svc.cluster.local
+  - address: smtpd.halon.svc.cluster.local
     port: 80
     expand: true
     processes:
       - smtpd
-  - address: rated.default.svc.cluster.local
+  - address: rated.halon.svc.cluster.local
     port: 80
     expand: true
     processes:

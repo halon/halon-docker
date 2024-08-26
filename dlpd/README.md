@@ -1,5 +1,13 @@
 # Data Loss Prevention (DLP) engine
 
+## Prerequisites
+
+Make sure you have created the `halon` namespace first.
+
+```
+kubectl create namespace halon
+```
+
 ## Build
 
 Below are the linux distributions we currently have instructions for.

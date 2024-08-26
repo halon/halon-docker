@@ -2,18 +2,19 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: web
+  namespace: halon
 data:
   web.yaml: |-
     version: "1.16"
     listeners:
       - port: 80
     hosts:
-      - address: smtpd.default.svc.cluster.local
+      - address: smtpd.halon.svc.cluster.local
         port: 80
         expand: true
         processes:
           - smtpd
-      - address: rated.default.svc.cluster.local
+      - address: rated.halon.svc.cluster.local
         port: 80
         expand: true
         processes:
@@ -31,6 +32,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web
+  namespace: halon
   labels:
     app: web
 spec:
@@ -44,6 +46,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
+  namespace: halon
   labels:
     app: web
 spec:

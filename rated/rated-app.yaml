@@ -1,4 +1,4 @@
 version: "6.3"
 peers:
-  - address: rated.default.svc.cluster.local
+  - address: rated.halon.svc.cluster.local
     expand: true

@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: savdid
+  namespace: halon
 data:
   savdid.conf: |-
     pidfile: /var/run/savdid.pid
@@ -51,6 +52,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vdbs
+  namespace: halon
 data:
   update.sh: |-
     #!/bin/sh
@@ -99,6 +101,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: vdbs
+  namespace: halon
 spec:
   accessModes:
   - ReadWriteOnce
@@ -111,11 +114,13 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: vdbs
+  namespace: halon
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: vdbs
+  namespace: halon
 rules:
   - apiGroups:
     - apps
@@ -132,6 +137,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: vdbs
+  namespace: halon
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -144,6 +150,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: vdbs
+  namespace: halon
 spec:
   schedule: "*/10 * * * *"
   concurrencyPolicy: Forbid
@@ -181,6 +188,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: savdid
+  namespace: halon
   labels:
     app: savdid
 spec:
@@ -194,6 +202,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: savdid
+  namespace: halon
   labels:
     app: savdid
 spec:

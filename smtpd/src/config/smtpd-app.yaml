@@ -27,8 +27,8 @@ plugins:
   - id: rate
     config:
       port: 5002
-      address: rated.default.svc.cluster.local
+      address: rated.halon.svc.cluster.local
   - id: dlp
     config:
       port: 5004
-      address: dlpd.default.svc.cluster.local
+      address: dlpd.halon.svc.cluster.local
