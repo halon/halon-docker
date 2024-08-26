@@ -37,15 +37,15 @@ The `halon-extras-rate`, `halon-extras-dlp` and `halon-extras-sophos` packages c
 
 Below are the objects that the [sample configuration](kubernetes.yaml) include.
 
-Kind             | Name      | Description                                                                                                         |
----------------- | --------- | ------------------------------------------------------------------------------------------------------------------- |
-ConfigMap        | `smtpd`   | The configuration files, `plugins` can be removed if the `rated` and `dlpd` containers are not going to be deployed |
-StorageClass     | `spool`   | A storage class for the email queue spool                                                                           |
-PersistentVolume | `spool-1` | A local PV for the email queue spool, `path` and `nodeAffinity` must be adjusted to match your environment          |
-PersistentVolume | `spool-2` | A local PV for the email queue spool, `path` and `nodeAffinity` must be adjusted to match your environment          |
-PersistentVolume | `spool-3` | A local PV for the email queue spool, `path` and `nodeAffinity` must be adjusted to match your environment          |
-Service          | `smtpd`   | A headless service listening on port `25` and `80` that in order to work correctly needs to be single-stack         |
-StatefulSet      | `smtpd`   | A stateful set where each pod automatically gets assigned it's own PV, see `spool-1`, `spool-2` and `spool-3` above |
+Kind             | Name            | Description                                                                                                                           |
+---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+ConfigMap        | `smtpd`         | The configuration files, `plugins` can be removed if the `rated` and `dlpd` containers are not going to be deployed                   |
+StorageClass     | `halon-spool`   | A storage class for the email queue spool                                                                                             |
+PersistentVolume | `halon-spool-1` | A local PV for the email queue spool, `path` and `nodeAffinity` must be adjusted to match your environment                            |
+PersistentVolume | `halon-spool-2` | A local PV for the email queue spool, `path` and `nodeAffinity` must be adjusted to match your environment                            |
+PersistentVolume | `halon-spool-3` | A local PV for the email queue spool, `path` and `nodeAffinity` must be adjusted to match your environment                            |
+Service          | `smtpd`         | A headless service listening on port `25` and `80` that in order to work correctly needs to be single-stack                           |
+StatefulSet      | `smtpd`         | A stateful set where each pod automatically gets assigned it's own PV, see `halon-spool-1`, `halon-spool-2` and `halon-spool-3` above |
 
 The objects can be applied using the below command.
 

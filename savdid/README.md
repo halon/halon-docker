@@ -33,19 +33,19 @@ docker build -t savdid:3.85.1 -f images/ubuntu-22.04/Dockerfile \
 
 Below are the objects that the [sample configuration](kubernetes.yaml) include.
 
-Kind                  | Name     | Description                                                                                                     |
---------------------- | -------- | --------------------------------------------------------------------------------------------------------------- |
-ConfigMap             | `savdid` | The configuration file                                                                                          |
-ConfigMap             | `vdbs`   | The shell script that is run to update the virus data, the URL must be substituted with the URL provided by us  |
-StorageClass          | `vdbs`   | A storage class for the virus data                                                                              |
-PersistentVolume      | `vdbs`   | A persistent volume for the virus data, `path` and `nodeAffinity` must be adjusted to match your environment    |
-PersistentVolumeClaim | `vdbs`   | A persistent volume claim for the virus data                                                                    |
-ServiceAccount        | `vdbs`   | A service account for the cron job below                                                                        |
-Role                  | `vdbs`   | A role for the service account above                                                                            |
-RoleBinding           | `vdbs`   | A role binding for the service account above                                                                    |
-CronJob               | `vdbs`   | The cron job that updates the virus data                                                                        |
-Service               | `savdid` | A regular service with a cluster IP listening on port `4010`                                                    |
-Deployment            | `savdid` | A regular deployment of a replica set                                                                           |
+Kind                  | Name         | Description                                                                                                     |
+--------------------- | ------------ | --------------------------------------------------------------------------------------------------------------- |
+ConfigMap             | `savdid`     | The configuration file                                                                                          |
+ConfigMap             | `vdbs`       | The shell script that is run to update the virus data, the URL must be substituted with the URL provided by us  |
+StorageClass          | `halon-vdbs` | A storage class for the virus data                                                                              |
+PersistentVolume      | `halon-vdbs` | A persistent volume for the virus data, `path` and `nodeAffinity` must be adjusted to match your environment    |
+PersistentVolumeClaim | `vdbs`       | A persistent volume claim for the virus data                                                                    |
+ServiceAccount        | `vdbs`       | A service account for the cron job below                                                                        |
+Role                  | `vdbs`       | A role for the service account above                                                                            |
+RoleBinding           | `vdbs`       | A role binding for the service account above                                                                    |
+CronJob               | `vdbs`       | The cron job that updates the virus data                                                                        |
+Service               | `savdid`     | A regular service with a cluster IP listening on port `4010`                                                    |
+Deployment            | `savdid`     | A regular deployment of a replica set                                                                           |
 
 The objects can be applied using the below command.
 
