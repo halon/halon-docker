@@ -5,7 +5,7 @@ metadata:
   namespace: halon
 data:
   web.yaml: |-
-    version: "1.16"
+    version: "1.17"
     listeners:
       - port: 80
     hosts:
@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: halon/web:1.16.0
+        image: halon/web:1.17.0
         ports:
         - containerPort: 80
           name: http

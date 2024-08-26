@@ -5,7 +5,7 @@ metadata:
   namespace: halon
 data:
   smtpd-app.yaml: |
-    version: "6.3"
+    version: "6.4"
     servers:
       - id: default
         transport: mx
@@ -40,7 +40,7 @@ data:
           port: 5004
           address: dlpd.halon.svc.cluster.local
   smtpd.yaml: |
-    version: "6.3"
+    version: "6.4"
     servers:
       - id: default
         listeners:
@@ -62,7 +62,7 @@ data:
         nofile: 70000
       licensekey: /license.key
   api.yaml: |
-    version: "6.3"
+    version: "6.4"
     listeners:
       - port: 80
     environment:
@@ -181,7 +181,7 @@ spec:
       terminationGracePeriodSeconds: 3600
       containers:
       - name: smtpd
-        image: halon/smtpd:6.3.1
+        image: halon/smtpd:6.4.0
         ports:
         - containerPort: 5000
           name: controlsocket
@@ -196,7 +196,7 @@ spec:
         - mountPath: /etc/halon
           name: config
       - name: api
-        image: halon/api:6.3.1
+        image: halon/api:6.4.0
         ports:
         - containerPort: 80
           name: http

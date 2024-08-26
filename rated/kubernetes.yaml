@@ -5,17 +5,17 @@ metadata:
   namespace: halon
 data:
   ratectl.yaml: |-
-    version: "6.3"
+    version: "6.4"
     environment:
       controlsocket:
         port: 5001
   rated-app.yaml: |-
-    version: "6.3"
+    version: "6.4"
     peers:
       - address: rated.halon.svc.cluster.local
         expand: true
   rated.yaml: |
-    version: "6.3"
+    version: "6.4"
     # HMAC-SHA1 key for cluster synchronisation
     key: a3faf19660fea508afaab8648b4aa3b9f685acd0
     reresolve: 5
@@ -28,7 +28,7 @@ data:
         user: rated
         group: rated
   api.yaml: |
-    version: "6.3"
+    version: "6.4"
     listeners:
       - port: 80
     environment:
@@ -82,7 +82,7 @@ spec:
     spec:
       containers:
       - name: rated
-        image: halon/rated:6.3.1
+        image: halon/rated:6.4.0
         ports:
         - containerPort: 5001
           name: controlsocket
@@ -99,7 +99,7 @@ spec:
         - mountPath: /etc/halon
           name: config
       - name: api
-        image: halon/api:6.3.1
+        image: halon/api:6.4.0
         ports:
         - containerPort: 80
           name: http
