@@ -161,7 +161,7 @@ spec:
           serviceAccountName: vdbs
           containers:
           - name: vdbs
-            image: savdid:3.85.1
+            image: halon/savdid:3.85.1
             command:
             - /bin/sh
             - /usr/local/bin/savdid-update
@@ -217,7 +217,7 @@ spec:
     spec:
       containers:
       - name: savdid
-        image: savdid:3.85.1
+        image: halon/savdid:3.85.1
         ports:
         - containerPort: 4010
           name: socket

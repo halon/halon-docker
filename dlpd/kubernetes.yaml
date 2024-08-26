@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
       - name: dlpd
-        image: dlpd:6.3.1
+        image: halon/dlpd:6.3.1
         ports:
         - containerPort: 5003
           name: controlsocket

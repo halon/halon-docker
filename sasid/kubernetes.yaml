@@ -87,7 +87,7 @@ spec:
     spec:
       containers:
       - name: sasid
-        image: sasid:5.1.3
+        image: halon/sasid:5.1.3
         env:
         - name: SASI_USER
           value: "username"

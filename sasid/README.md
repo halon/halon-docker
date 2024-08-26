@@ -22,7 +22,7 @@ Below are the linux distributions we currently have instructions for.
 To build a container image, simply clone the repository to your machine and from inside the `halon-docker/sasid` directory run the below command, substituting `ubuntu-22.04` with any of the distributions above and the example credentials with those provided by us.
 
 ```
-docker build -t sasid:5.1.3 -f images/ubuntu-22.04/Dockerfile \
+docker build -t halon/sasid:5.1.3 -f images/ubuntu-22.04/Dockerfile \
              --build-arg HALON_REPO_USER=exampleuser \
              --build-arg HALON_REPO_PASS=examplepass \
              --platform=linux/amd64 \

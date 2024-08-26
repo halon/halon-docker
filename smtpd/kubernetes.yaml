@@ -181,7 +181,7 @@ spec:
       terminationGracePeriodSeconds: 3600
       containers:
       - name: smtpd
-        image: smtpd:6.3.1
+        image: halon/smtpd:6.3.1
         ports:
         - containerPort: 5000
           name: controlsocket
@@ -196,7 +196,7 @@ spec:
         - mountPath: /etc/halon
           name: config
       - name: api
-        image: api:6.3.1
+        image: halon/api:6.3.1
         ports:
         - containerPort: 80
           name: http

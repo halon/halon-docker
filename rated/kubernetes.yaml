@@ -82,7 +82,7 @@ spec:
     spec:
       containers:
       - name: rated
-        image: rated:6.3.1
+        image: halon/rated:6.3.1
         ports:
         - containerPort: 5001
           name: controlsocket
@@ -99,7 +99,7 @@ spec:
         - mountPath: /etc/halon
           name: config
       - name: api
-        image: api:6.3.1
+        image: halon/api:6.3.1
         ports:
         - containerPort: 80
           name: http
