@@ -16,11 +16,10 @@ RUN yum install -y savdid-3.85.1
 
 RUN echo "[kubernetes]" >> /etc/yum.repos.d/kubernetes.repo
 RUN echo "name=Kubernetes" >> /etc/yum.repos.d/kubernetes.repo
-RUN echo "baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64" >> /etc/yum.repos.d/kubernetes.repo
+RUN echo "baseurl=https://pkgs.k8s.io/core:/stable:/v1.31/rpm/" >> /etc/yum.repos.d/kubernetes.repo
 RUN echo "enabled=1" >> /etc/yum.repos.d/kubernetes.repo
 RUN echo "gpgcheck=1" >> /etc/yum.repos.d/kubernetes.repo
-RUN echo "repo_gpgcheck=1" >> /etc/yum.repos.d/kubernetes.repo
-RUN echo "gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg" >> /etc/yum.repos.d/kubernetes.repo
+RUN echo "gpgkey=https://pkgs.k8s.io/core:/stable:/v1.31/rpm/repodata/repomd.xml.key" >> /etc/yum.repos.d/kubernetes.repo
 RUN yum install -y kubectl
 
 RUN yum install -y wget zip findutils
