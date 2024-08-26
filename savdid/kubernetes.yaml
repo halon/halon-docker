@@ -72,22 +72,22 @@ data:
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: vdbs
+  name: halon-vdbs
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: vdbs
+  name: halon-vdbs
 spec:
   capacity:
     storage: 1Gi
   accessModes:
   - ReadWriteOnce
-  storageClassName: vdbs
+  storageClassName: halon-vdbs
   local:
-    path: /vdbs
+    path: /halon-vdbs
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -108,7 +108,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: vdbs
+  storageClassName: halon-vdbs
 ---
 kind: ServiceAccount
 apiVersion: v1

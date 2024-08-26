@@ -76,22 +76,22 @@ data:
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: spool
+  name: halon-spool
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: spool-1
+  name: halon-spool-1
 spec:
   capacity:
     storage: 10Gi
   accessModes:
   - ReadWriteOnce
-  storageClassName: spool
+  storageClassName: halon-spool
   local:
-    path: /spool-1
+    path: /halon-spool-1
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -104,15 +104,15 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: spool-2
+  name: halon-spool-2
 spec:
   capacity:
     storage: 10Gi
   accessModes:
   - ReadWriteOnce
-  storageClassName: spool
+  storageClassName: halon-spool
   local:
-    path: /spool-2
+    path: /halon-spool-2
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -125,15 +125,15 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: spool-3
+  name: halon-spool-3
 spec:
   capacity:
     storage: 10Gi
   accessModes:
   - ReadWriteOnce
-  storageClassName: spool
+  storageClassName: halon-spool
   local:
-    path: /spool-3
+    path: /halon-spool-3
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -220,7 +220,7 @@ spec:
     spec:
       accessModes:
       - ReadWriteOnce
-      storageClassName: spool
+      storageClassName: halon-spool
       resources:
         requests:
           storage: 10Gi
