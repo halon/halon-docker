@@ -181,7 +181,7 @@ spec:
       terminationGracePeriodSeconds: 3600
       containers:
       - name: smtpd
-        image: halon/smtpd:6.4.0
+        image: halon/smtpd:6.4.1
         ports:
         - containerPort: 5000
           name: controlsocket
