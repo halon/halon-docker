@@ -69,34 +69,6 @@ data:
 
     exit $status
 ---
-kind: StorageClass
-apiVersion: storage.k8s.io/v1
-metadata:
-  name: halon-vdbs
-provisioner: kubernetes.io/no-provisioner
-volumeBindingMode: WaitForFirstConsumer
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: halon-vdbs
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: halon-vdbs
-  local:
-    path: /halon-vdbs
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - docker-desktop
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -108,7 +80,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: halon-vdbs
+  storageClassName: standard
 ---
 kind: ServiceAccount
 apiVersion: v1

@@ -37,9 +37,7 @@ Kind                  | Name         | Description                              
 --------------------- | ------------ | --------------------------------------------------------------------------------------------------------------- |
 ConfigMap             | `savdid`     | The configuration file                                                                                          |
 ConfigMap             | `vdbs`       | The shell script that is run to update the virus data, the URL must be substituted with the URL provided by us  |
-StorageClass          | `halon-vdbs` | A storage class for the virus data                                                                              |
-PersistentVolume      | `halon-vdbs` | A persistent volume for the virus data, `path` and `nodeAffinity` must be adjusted to match your environment    |
-PersistentVolumeClaim | `vdbs`       | A persistent volume claim for the virus data                                                                    |
+PersistentVolumeClaim | `vdbs`       | A persistent volume claim for the virus data,`storageClassName` needs to be adjusted to match your environment  |
 ServiceAccount        | `vdbs`       | A service account for the cron job below                                                                        |
 Role                  | `vdbs`       | A role for the service account above                                                                            |
 RoleBinding           | `vdbs`       | A role binding for the service account above                                                                    |

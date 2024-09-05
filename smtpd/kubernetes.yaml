@@ -73,76 +73,6 @@ data:
         smtpd:
           port: 5000
 ---
-kind: StorageClass
-apiVersion: storage.k8s.io/v1
-metadata:
-  name: halon-spool
-provisioner: kubernetes.io/no-provisioner
-volumeBindingMode: WaitForFirstConsumer
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: halon-spool-1
-spec:
-  capacity:
-    storage: 10Gi
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: halon-spool
-  local:
-    path: /halon-spool-1
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - docker-desktop
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: halon-spool-2
-spec:
-  capacity:
-    storage: 10Gi
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: halon-spool
-  local:
-    path: /halon-spool-2
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - docker-desktop
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: halon-spool-3
-spec:
-  capacity:
-    storage: 10Gi
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: halon-spool
-  local:
-    path: /halon-spool-3
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - docker-desktop
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -220,7 +150,7 @@ spec:
     spec:
       accessModes:
       - ReadWriteOnce
-      storageClassName: halon-spool
+      storageClassName: standard
       resources:
         requests:
           storage: 10Gi
