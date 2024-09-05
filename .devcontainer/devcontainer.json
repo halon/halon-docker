@@ -1,0 +1,40 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm-minikube
+{
+	"name": "Kubernetes - Minikube-in-Docker",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		},
+		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+			"version": "latest",
+			"helm": "latest",
+			"minikube": "latest"
+		}
+	},
+	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+
+	// Use 'postStartCommand' to run commands after the container is created like starting minikube.
+	"postStartCommand": "nohup bash -c 'minikube start &' > /tmp/minikube.log 2>&1",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-kubernetes-tools.vscode-kubernetes-tools"
+			]
+		}
+	}
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
