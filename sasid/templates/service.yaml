@@ -1,0 +1,17 @@
+{{- if .Values.global.sasid.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "sasid.fullname" . }}
+  labels:
+    {{- include "sasid.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.sasid.service.type }}
+  ports:
+    - port: {{ .Values.global.sasid.service.port }}
+      targetPort: sasi
+      protocol: TCP
+      name: sasi
+  selector:
+    {{- include "sasid.selectorLabels" . | nindent 4 }}
+{{- end }}

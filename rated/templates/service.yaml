@@ -1,0 +1,41 @@
+{{- if .Values.global.rated.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rated.fullname" . }}
+  labels:
+    {{- include "rated.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.rated.service.type }}
+  ports:
+    - port: {{ .Values.global.rated.service.port }}
+      targetPort: rate
+      protocol: UDP
+      name: rate
+  selector:
+    {{- include "rated.selectorLabels" . | nindent 4 }}
+  clusterIP: None
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+    - IPv4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ include "rated.fullname" . }}-api"
+  labels:
+    {{- include "rated.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.rated.api.service.type }}
+  ports:
+    - port: {{ .Values.global.rated.api.service.port }}
+      targetPort: api
+      protocol: TCP
+      name: api
+  selector:
+    {{- include "rated.selectorLabels" . | nindent 4 }}
+  clusterIP: None
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+    - IPv4
+{{- end }}

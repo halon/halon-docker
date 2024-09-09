@@ -1,0 +1,37 @@
+{{- if .Values.global.smtpd.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "smtpd.fullname" . }}
+  labels:
+    {{- include "smtpd.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.smtpd.service.type }}
+  ports:
+    - port: {{ .Values.global.smtpd.service.port }}
+      targetPort: smtp
+      protocol: TCP
+      name: smtp
+  selector:
+    {{- include "smtpd.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ include "smtpd.fullname" . }}-api"
+  labels:
+    {{- include "smtpd.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.smtpd.api.service.type }}
+  ports:
+    - port: {{ .Values.global.smtpd.api.service.port }}
+      targetPort: api
+      protocol: TCP
+      name: api
+  selector:
+    {{- include "smtpd.selectorLabels" . | nindent 4 }}
+  clusterIP: None
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+    - IPv4
+{{- end }}

@@ -1,15 +1,5 @@
 # Rate limiting implementation
 
-## Prerequisites
-
-Make sure you have created the `halon` namespace first.
-
-```
-kubectl create namespace halon
-```
-
-Also make sure that you have built the [HTTP/JSON API](../api/README.md) container image first.
-
 ## Build
 
 Below are the linux distributions we currently have instructions for.
@@ -29,20 +19,4 @@ docker build -t halon/rated:6.4.0 -f images/ubuntu-22.04/Dockerfile \
              --build-arg HALON_REPO_PASS=examplepass \
              --platform=linux/amd64 \
              .
-```
-
-## Kubernetes
-
-Below are the objects that the [sample configuration](kubernetes.yaml) include.
-
-Kind       | Name    | Description                                                                                                              |
----------- | ------- | ------------------------------------------------------------------------------------------------------------------------ |
-ConfigMap  | `rated` | The configuration files, `key` must be substituted with your own HMAC-SHA1 key                                          |
-Service    | `rated` | A headless service listening on port `5002`, `13131` and `80` that in order to work correctly needs to be single-stack |
-Deployment | `rated` | A regular deployment of a replica set                                                                                    |
-
-The objects can be applied using the below command.
-
-```
-kubectl apply -f kubernetes.yaml
 ```

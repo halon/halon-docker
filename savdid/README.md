@@ -1,13 +1,5 @@
 # Sophos Anti-Virus
 
-## Prerequisites
-
-Make sure you have created the `halon` namespace first.
-
-```
-kubectl create namespace halon
-```
-
 ## Build
 
 Below are the linux distributions we currently have instructions for.
@@ -27,26 +19,4 @@ docker build -t halon/savdid:3.85.1 -f images/ubuntu-22.04/Dockerfile \
              --build-arg HALON_REPO_PASS=examplepass \
              --platform=linux/amd64 \
              .
-```
-
-## Kubernetes
-
-Below are the objects that the [sample configuration](kubernetes.yaml) include.
-
-Kind                  | Name         | Description                                                                                                     |
---------------------- | ------------ | --------------------------------------------------------------------------------------------------------------- |
-ConfigMap             | `savdid`     | The configuration file                                                                                          |
-ConfigMap             | `vdbs`       | The shell script that is run to update the virus data, the URL must be substituted with the URL provided by us  |
-PersistentVolumeClaim | `vdbs`       | A persistent volume claim for the virus data,`storageClassName` needs to be adjusted to match your environment  |
-ServiceAccount        | `vdbs`       | A service account for the cron job below                                                                        |
-Role                  | `vdbs`       | A role for the service account above                                                                            |
-RoleBinding           | `vdbs`       | A role binding for the service account above                                                                    |
-CronJob               | `vdbs`       | The cron job that updates the virus data                                                                        |
-Service               | `savdid`     | A regular service with a cluster IP listening on port `4010`                                                    |
-Deployment            | `savdid`     | A regular deployment of a replica set                                                                           |
-
-The objects can be applied using the below command.
-
-```
-kubectl apply -f kubernetes.yaml
 ```

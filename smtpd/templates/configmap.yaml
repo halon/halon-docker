@@ -1,0 +1,83 @@
+{{- if .Values.global.smtpd.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "smtpd.fullname" . }}
+  labels:
+    {{- include "smtpd.labels" . | nindent 4 }}
+data:
+  smtpd.yaml: |
+    version: "6.4"
+    servers:
+      - id: default
+        listeners:
+          - port: {{ .Values.global.smtpd.service.port }}
+    plugins: {{- if (not .Values.global.rated.enabled) }} []{{- end }}
+      {{- if .Values.global.rated.enabled }}
+      - id: rate
+        config:
+          reresolve: 5
+      {{- end }}
+    environment:
+      uuid:
+        version: 4
+      controlsocket:
+        port: {{ .Values.controlSocketPort }}
+      privdrop:
+        user: smtpd
+        group: smtpd
+      umask: "0027"
+      rlimit:
+        nofile: 70000
+      licensekey: /license.key
+  smtpd-app.yaml: |
+    version: "6.4"
+    servers:
+      - id: default
+        transport: mx
+    transportgroups:
+      - id: default
+        retry:
+          count: 30
+          intervals:
+            - interval: 60
+            - interval: 900
+            - interval: 3600
+              notify: true
+            - interval: 7200
+            - interval: 10800
+        dsn:
+          transport: mx
+        transports:
+          - id: mx
+            session:
+              tls:
+                mode: dane
+    resolver:
+      cache:
+        size: 10000
+    plugins: {{- if and (not .Values.global.rated.enabled) (not .Values.global.dlpd.enabled) }} []{{- end }}
+      {{- if .Values.global.rated.enabled }}
+      - id: rate
+        config:
+          port: {{ .Values.global.rated.service.port }}
+          address: "{{ .Release.Name }}-rated.{{ .Release.Namespace }}.svc.cluster.local"
+      {{- end }}
+      {{- if .Values.global.dlpd.enabled }}
+      - id: dlp
+        config:
+          port: {{ .Values.global.dlpd.service.port }}
+          address: "{{ .Release.Name }}-dlpd.{{ .Release.Namespace }}.svc.cluster.local"
+      {{- end }}
+  api.yaml: |
+    version: "6.4"
+    listeners:
+      - port:  {{ .Values.global.smtpd.api.service.port }}
+    environment:
+      privdrop:
+        user: api
+        group: api
+      controlsockets:
+        smtpd:
+          port: {{ .Values.controlSocketPort }}
+{{- end }}

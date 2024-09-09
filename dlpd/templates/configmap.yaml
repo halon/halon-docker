@@ -1,0 +1,28 @@
+{{- if .Values.global.dlpd.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "dlpd.fullname" . }}
+  labels:
+    {{- include "dlpd.labels" . | nindent 4 }}
+data:
+  dlpd.yaml: |
+    version: "6.4"
+    environment:
+      controlsocket:
+        port: {{ .Values.controlSocketPort }}
+      socket:
+        port: {{ .Values.global.dlpd.service.port }}
+      privdrop:
+        user: dlpd
+        group: dlpd
+      umask: "0027"
+  dlpd-app.yaml: |-
+    version: "6.4"
+    rules: []
+  dlpctl.yaml: |
+    version: "6.4"
+    environment:
+      controlsocket:
+        port: {{ .Values.controlSocketPort }}
+{{- end }}

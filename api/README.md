@@ -20,7 +20,3 @@ docker build -t halon/api:6.4.0 -f images/ubuntu-22.04/Dockerfile \
              --platform=linux/amd64 \
              .
 ```
-
-## Kubernetes
-
-It should be deployed in the same pod as the `smtpd` and `rated` containers rather than as a stand-alone pod.

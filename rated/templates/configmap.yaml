@@ -1,0 +1,42 @@
+{{- if .Values.global.rated.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "rated.fullname" . }}
+  labels:
+    {{- include "rated.labels" . | nindent 4 }}
+data:
+  rated.yaml: |
+    version: "6.4"
+    key: {{ .Values.clusterSyncKey }}
+    reresolve: 5
+    environment:
+      controlsocket:
+        port: {{ .Values.controlSocketPort }}
+      socket:
+        port: {{ .Values.global.rated.service.port }}
+      privdrop:
+        user: rated
+        group: rated
+  rated-app.yaml: |
+    version: "6.4"
+    peers:
+      - address: "{{ include "rated.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+        expand: true
+  ratectl.yaml: |
+    version: "6.4"
+    environment:
+      controlsocket:
+        port: {{ .Values.controlSocketPort }}
+  api.yaml: |
+    version: "6.4"
+    listeners:
+      - port: {{ .Values.global.rated.api.service.port }}
+    environment:
+      privdrop:
+        user: api
+        group: api
+      controlsockets:
+        rated:
+          port: {{ .Values.controlSocketPort }}
+{{- end }}

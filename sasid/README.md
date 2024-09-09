@@ -1,13 +1,5 @@
 # Sophos Anti-Spam
 
-## Prerequisites
-
-Make sure you have created the `halon` namespace first.
-
-```
-kubectl create namespace halon
-```
-
 ## Build
 
 Below are the linux distributions we currently have instructions for.
@@ -27,20 +19,4 @@ docker build -t halon/sasid:5.1.3 -f images/ubuntu-22.04/Dockerfile \
              --build-arg HALON_REPO_PASS=examplepass \
              --platform=linux/amd64 \
              .
-```
-
-## Kubernetes
-
-Below are the objects that the [sample configuration](kubernetes.yaml) include.
-
-Kind                  | Name    | Description                                                                                                                 |
---------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |
-ConfigMap             | `sasid` | The configuration file                                                                                                      |
-Service               | `sasid` | A regular service with a cluster IP listening on port `25315`                                                               |
-Deployment            | `sasid` | A regular deployment of a replica set, `SASI_USER` and `SASI_PASSWORD` must be replaced with the credentials provided by us |
-
-The objects can be applied using the below command.
-
-```
-kubectl apply -f kubernetes.yaml
 ```

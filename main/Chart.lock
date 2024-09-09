@@ -1,0 +1,21 @@
+dependencies:
+- name: dlpd
+  repository: file://../dlpd
+  version: 0.1.0
+- name: rated
+  repository: file://../rated
+  version: 0.1.0
+- name: sasid
+  repository: file://../sasid
+  version: 0.1.0
+- name: savdid
+  repository: file://../savdid
+  version: 0.1.0
+- name: smtpd
+  repository: file://../smtpd
+  version: 0.1.0
+- name: web
+  repository: file://../web
+  version: 0.1.0
+digest: sha256:93b5e553040df88c9a8e0636d9fd5171ef2a0d2b025d32516aca6404d0e0691a
+generated: "2024-09-09T07:21:30.913629089Z"

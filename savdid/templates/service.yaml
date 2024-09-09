@@ -1,0 +1,17 @@
+{{- if .Values.global.savdid.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "savdid.fullname" . }}
+  labels:
+    {{- include "savdid.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.savdid.service.type }}
+  ports:
+    - port: {{ .Values.global.savdid.service.port }}
+      targetPort: savi
+      protocol: TCP
+      name: savi
+  selector:
+    {{- include "savdid.selectorLabels" . | nindent 4 }}
+{{- end }}

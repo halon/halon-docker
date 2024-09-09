@@ -1,13 +1,5 @@
 # Data Loss Prevention (DLP) engine
 
-## Prerequisites
-
-Make sure you have created the `halon` namespace first.
-
-```
-kubectl create namespace halon
-```
-
 ## Build
 
 Below are the linux distributions we currently have instructions for.
@@ -27,20 +19,4 @@ docker build -t halon/dlpd:6.4.0 -f images/ubuntu-22.04/Dockerfile \
              --build-arg HALON_REPO_PASS=examplepass \
              --platform=linux/amd64 \
              .
-```
-
-## Kubernetes
-
-Below are the objects that the [sample configuration](kubernetes.yaml) include.
-
-Kind       | Name   | Description                                                  |
----------- | ------ | ------------------------------------------------------------ |
-ConfigMap  | `dlpd` | The configuration files                                      |
-Service    | `dlpd` | A regular service with a cluster IP listening on port `5004` |
-Deployment | `dlpd` | A regular deployment of a replica set                        |
-
-The objects can be applied using the below command.
-
-```
-kubectl apply -f kubernetes.yaml
 ```

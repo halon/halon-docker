@@ -1,0 +1,74 @@
+{{- if .Values.global.savdid.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "savdid.fullname" . }}
+  labels:
+    {{- include "savdid.labels" . | nindent 4 }}
+data:
+  savdid.conf: |
+    pidfile: /var/run/savdid.pid
+    # user: savdid
+    # group: savdid
+    threadcount: 30
+    maxqueuedsessions: 50
+    virusdatadir: /var/sav/vdbs
+    idedir: /var/sav/vdbs
+
+    onexception: REQUEST
+    onrequest: REQUEST
+
+    log {
+        type: CONSOLE
+        loglevel: 0
+    }
+    channel {
+        commprotocol {
+            type: IP
+            port: {{ .Values.global.savdid.service.port }}
+            requesttimeout: 120
+            sendtimeout: 2
+            recvtimeout: 5
+        }
+        scanprotocol {
+            type: SSSP
+            allowscandata: YES
+            allowscanfile: NO
+            maxscandata: 0
+            logrequests: NO
+        }
+        scanner {
+            type: SAVI
+            inprocess: YES
+            maxscantime: 30
+            maxrequesttime: 30
+            enablesandbox: YES
+            contextstr: Genes/Extn/ProdVer OEM:Email:1.0.0
+            savigrp: GrpSuper 1
+            savists: Xml 1
+            savists: Msi 1
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "savdid.fullname" . }}-vdbs"
+  labels:
+    {{- include "savdid.labels" . | nindent 4 }}
+data:
+  update.sh: |
+    #!/bin/sh
+
+    /opt/savdid/bin/update.sh {{ .Values.updateURL }}
+
+    status=$?
+
+    if [ $status -eq 2 ]; then
+        # An exit status of 2 means that an update was available which requires the deployment to restart
+        kubectl rollout restart deployment/{{ include "savdid.fullname" . }} -n {{ .Release.Namespace }}
+        exit 0
+    fi
+
+    exit $status
+{{- end }}

@@ -1,0 +1,41 @@
+{{- if .Values.global.savdid.enabled -}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "savdid.fullname" . }}
+  labels:
+    {{- include "savdid.labels" . | nindent 4 }}
+spec:
+  schedule: "*/10 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: {{ include "savdid.serviceAccountName" . }}
+          containers:
+            - name: "{{ .Chart.Name }}-vdbs"
+              securityContext:
+                {{- toYaml .Values.securityContext | nindent 16 }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command:
+                - /bin/sh
+                - /usr/local/bin/savdid-update
+              volumeMounts:
+                - mountPath: /usr/local/bin/savdid-update
+                  subPath: update.sh
+                  name: vdbs-update
+                - mountPath: /var/sav/vdbs
+                  name: vdbs
+          restartPolicy: OnFailure
+          volumes:
+            - name: vdbs-update
+              configMap:
+                name: "{{ include "savdid.fullname" . }}-vdbs"
+            - name: vdbs
+              persistentVolumeClaim:
+                claimName: {{ include "savdid.fullname" . }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+{{- end }}

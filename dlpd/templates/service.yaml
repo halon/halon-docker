@@ -1,0 +1,17 @@
+{{- if .Values.global.dlpd.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "dlpd.fullname" . }}
+  labels:
+    {{- include "dlpd.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.dlpd.service.type }}
+  ports:
+    - port: {{ .Values.global.dlpd.service.port }}
+      targetPort: dlp
+      protocol: TCP
+      name: dlp
+  selector:
+    {{- include "dlpd.selectorLabels" . | nindent 4 }}
+{{- end }}

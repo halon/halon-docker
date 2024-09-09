@@ -1,0 +1,123 @@
+global:
+  dlpd:
+    enabled: true
+    service:
+      type: ClusterIP
+      port: 3000
+  rated:
+    enabled: true
+    service:
+      type: ClusterIP
+      port: 3000
+    api:
+      service:
+        type: ClusterIP
+        port: 80
+  sasid:
+    enabled: false
+    service:
+      type: ClusterIP
+      port: 25315
+  savdid:
+    enabled: false
+    service:
+      type: ClusterIP
+      port: 4010
+  smtpd:
+    enabled: true
+    service:
+      type: ClusterIP
+      port: 25
+    api:
+      service:
+        type: ClusterIP
+        port: 80
+  web:
+    enabled: true
+    service:
+      type: ClusterIP
+      port: 80
+
+dlpd:
+  replicaCount: 2
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+rated:
+  replicaCount: 2
+  clusterSyncKey: a3f5d2817bfc9247adceb8362d4eac5c3798d42e
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+  # api:
+  #   resources:
+  #     limits:
+  #       cpu: 100m
+  #       memory: 128Mi
+  #     requests:
+  #       cpu: 100m
+  #       memory: 128Mi
+sasid:
+  replicaCount: 2
+  env:
+    - name: SASI_USER
+      value: "username"
+    - name: SASI_PASSWORD
+      value: "password"
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+savdid:
+  replicaCount: 2
+  storage: 1Gi
+  storageClassName: standard
+  updateURL: https://sophos.halon.io/1/XXXXXXXXXX
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+smtpd:
+  replicaCount: 2
+  storage: 10Gi
+  storageClassName: standard
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+  # api:
+  #   resources:
+  #     limits:
+  #       cpu: 100m
+  #       memory: 128Mi
+  #     requests:
+  #       cpu: 100m
+  #       memory: 128Mi
+web:
+  users:
+    - username: admin
+      password: $2y$12$BzWuHfwX9qDhhomp4Oe/5.7FYwrk1sQfytTeoosv7tqXv/D8hOebO
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi

@@ -1,0 +1,34 @@
+{{- if .Values.global.web.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "web.fullname" . }}
+  labels:
+    {{- include "web.labels" . | nindent 4 }}
+data:
+  web.yaml: |
+    version: "1.17"
+    listeners:
+      - port: {{ .Values.global.web.service.port }}
+    hosts: {{- if and (not .Values.global.smtpd.enabled) (not .Values.global.rated.enabled) }} []{{- end }}
+      {{- if .Values.global.smtpd.enabled }}
+      - address: "{{ .Release.Name }}-smtpd-api.{{ .Release.Namespace }}.svc.cluster.local"
+        port: {{ .Values.global.smtpd.api.service.port }}
+        expand: true
+        processes:
+          - smtpd
+      {{- end }}
+      {{- if .Values.global.rated.enabled }}
+      - address: "{{ .Release.Name }}-rated-api.{{ .Release.Namespace }}.svc.cluster.local"
+        port: {{ .Values.global.rated.api.service.port }}
+        expand: true
+        processes:
+          - rated
+      {{- end }}
+    reresolve: 5
+    users: {{ toYaml .Values.users | nindent 6 }}
+    environment:
+      privdrop:
+        user: web
+        group: web
+{{- end }}
