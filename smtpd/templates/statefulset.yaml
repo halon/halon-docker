@@ -36,9 +36,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-          - name: HALON_DEV_SEND_TO_SINK
-            value: "{{ .Values.sendToSink }}"
           ports:
             - name: smtp
               containerPort: {{ .Values.global.smtpd.service.port }}
