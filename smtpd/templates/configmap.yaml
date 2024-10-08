@@ -12,12 +12,24 @@ data:
       - id: default
         listeners:
           - port: {{ .Values.global.smtpd.service.port }}
-    plugins: {{- if (not .Values.global.rated.enabled) }} []{{- end }}
+    plugins:
       {{- if .Values.global.rated.enabled }}
       - id: rate
         config:
           reresolve: 5
       {{- end }}
+      - id: k8s-hqfmove
+        config:
+          name: {{ include "smtpd.fullname" . }}
+          namespace: {{ .Release.Namespace }}
+          port: {{ .Values.controlSocketPort }}
+      - id: k8s-policydivide
+        config:
+          name: {{ include "smtpd.fullname" . }}
+          namespace: {{ .Release.Namespace }}
+          port: {{ .Values.controlSocketPort }}
+          srcfile: /etc/halon/smtpd-policy.yaml
+          distfile: /tmp/smtpd-policy.yaml
     environment:
       uuid:
         version: 4
@@ -30,6 +42,7 @@ data:
       rlimit:
         nofile: 70000
       licensekey: /license.key
+      policyconf: /tmp/smtpd-policy.yaml
   smtpd-app.yaml: |
     version: "6.4"
     servers:
@@ -80,4 +93,20 @@ data:
       controlsockets:
         smtpd:
           port: {{ .Values.controlSocketPort }}
+  smtpd-policy.yaml: |
+    version: "6.4"
+    rate:
+      algorithm: tokenbucket
+    policies:
+      - fields:
+        - localip
+        - grouping
+        default:
+          concurrency: 20
+          properties:
+            backoff-concurrency: 1
+            backoff-rate: 1/10
+            backoff-ttl: 3600
+            backoff-disableable: true
+            backoff-suspendable: true
 {{- end }}
