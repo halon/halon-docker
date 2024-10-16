@@ -18,10 +18,11 @@ Below are the components we currently have instructions for.
 
 ### Threat protection
 
-| Component | Description         | Instructions             |
-| --------- | ------------------- | ------------------------ |
-| `savdid`  | Sophos Anti-Virus   | [Link](savdid/README.md) |
-| `sasid`   | Sophos Anti-spam    | [Link](sasid/README.md)  |
+| Component    | Description         | Instructions                |
+| ------------ | ------------------- | --------------------------- |
+| `expurgate`  | eXpurgate Anti-Spam | [Link](expurgate/README.md) |
+| `savdid`     | Sophos Anti-Virus   | [Link](savdid/README.md)    |
+| `sasid`      | Sophos Anti-spam    | [Link](sasid/README.md)     |
 
 ## Kubernetes / Helm
 

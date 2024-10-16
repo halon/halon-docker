@@ -1,0 +1,667 @@
+{{- if .Values.global.expurgate.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "expurgate.fullname" . }}
+  labels:
+    {{- include "expurgate.labels" . | nindent 4 }}
+binaryData:
+  # Replace this sample data with your own base64 encoded license key
+  client.key: |
+    QUFBQkJCQ0ND
+data:
+  expurgate-spamd.conf: |
+    #
+    # eXpurgate Spamd configuration file.
+    #
+    #   1. General      general program configuration
+    #   2. Logging      log targets and log levels
+    #   3. Spamd        Spamd server specific configuration
+    #   4. SpamEngine   mail scanning parameters
+    #
+
+
+    #
+    # Include: Process configuration directives from one or more
+    # configuration files.
+    #
+    #Include "/etc/expurgate/general.conf"
+    #Include "/etc/expurgate/logging.conf"
+    #Include "/etc/expurgate/spamd.conf"
+    #Include "/etc/expurgate/spamengine.conf"
+
+
+    ### Section 1.  General program configuration
+    #
+    # The directives in this section affect the overall operation of the
+    # eXpurgate Spamd.
+    #
+    <General>
+        #
+        # WorkingDirectory: The eXpurgate Spamd spool directory.
+        #
+        # note: This directive is required, but may be specified on the
+        #       command line instead.
+        #
+        # Default: none
+        WorkingDirectory "/var/spool/expurgate-spamd"
+
+        #
+        # LicenseFile: The filename of the eXpurgate license key.
+        #
+        # note: This directive is required, but may be specified on the
+        #       command line instead.
+        #
+        # Default: none
+        LicenseFile "/etc/expurgate-spamd/client.key"
+
+        #
+        # SubLicenseFile: If specified, indicates the name of a file
+        # containing the eXpurgate sublicense key.
+        #
+        # Default: none
+        #SubLicenseFile "/etc/expurgate-spamd/client.subkey"
+
+        #
+        # SubLicense: If specified, indicates the eXpurgate sublicense key
+        # as a quoted string.
+        #
+        # Default: none
+        #SubLicense "this-string-contains-a-sublicense-key"
+
+        #
+        # Daemonize: Specify true to start the eXpurgate Spamd in the background
+        # as a daemon.
+        #
+        # note: This directive is ignored when eXpurgate is started using
+        #       the distributed startup scripts.
+        #
+        # Default: no
+        Daemonize yes
+
+        #
+        # Changeroot: If specified, change the root directory to the
+        # given directory before startup.
+        #
+        # note: This directive typically requires the application to be
+        #       started with root privileges (on Linux, the process must
+        #       have the CAP_SYS_CHROOT capability). Use the UserId
+        #       directive to release these privileges after startup.
+        #
+        # Default: none
+        #Changeroot "/var/spool/changeroot"
+
+        #
+        # Pidfile: If specified, write the process identifier of the
+        # running application to the file specified.
+        #
+        # note: This directive is ignored when eXpurgate is started using
+        #       the distributed startup scripts.
+        #
+        # Default: none
+        #Pidfile "/var/run/expurgate-spamd.pid"
+
+        #
+        # UserId: If specified, change the effective user and group ID
+        # to the given values after startup.
+        #
+        # note: The user ID may be either a user name or a numeric user
+        #       ID. It may be followed by a colon and a group ID (group
+        #       name or numeric group ID) with no spaces in between.
+        #       The user ID field may be left empty. Specification of a
+        #       group ID is mandatory if a trailing colon is left past
+        #       the user ID.
+        #
+        # Default: none
+        #UserId mail:mail
+
+        #
+        # Product feature configuration subsection.
+        #
+        # This subsection contains directives to configure eXpurgate product
+        # features.
+        #
+        <ProductFeatures>
+            #
+            # Feature: Activate or deactivate a product feature.
+            #
+            # note: The set of default features is determined by the license
+            #       key. The 'phishing' feature depends on the 'spam'
+            #       feature but is independent from the license permissions.
+            #
+            #Feature Spam     on
+            #Feature Phishing on
+            #Feature Virus    on
+            #Feature Outbreak on
+        </ProductFeatures>
+    </General>
+
+
+
+    ### Section 2.  Logging configuration
+    #
+    # This section specifies the log levels at which log messages should
+    # be produced, and the targets to which the log messages should be
+    # written.
+    #
+    # The log levels are given below in ascending order of severity:
+    #
+    #   1. DEBUG        debug-level messages
+    #   2. INFO         informational messages
+    #   3. NOTICE       normal, but significant, information
+    #   4. WARNING      warning condition
+    #   5. ERROR        error condition (recoverable)
+    #   6. CRITICAL     critical condition
+    #   7. ALERT        alert! action must be taken immediately
+    #   8. EMERGENCY    emergency! system is unusable
+    #
+    # If the application detects that a log target is unavailable, it will
+    # remove the log target and issue an error message on any remaining
+    # log targets.
+    #
+    # Please note, that all logging is turned off by default.
+    <Logging>
+        #
+        # DefaultTimestamp: The format of the timestamp for FileLog or ConsoleLog can be
+        # specified in a strftime() compatible notation. The global Timestamp option is
+        # valid for all FileLog or ConsoleLog entries which has no Timestamp option
+        # specified.
+        #
+        #DefaultTimestamp "%Y-%m-%d %H:%M:%S"
+
+        #
+        # SysLog: If specified, write log messages in the given range to
+        # the system logger (see syslog(3)).
+        #
+        # note: The second argument specifies the log facility.
+        #
+        #SysLog NOTICE-EMERGENCY MAIL
+
+        #
+        # FileLog: If specified, write log messages in the given range to
+        # the indicated file.
+        # Optionally the format of the timestamps can be specified in strftime()
+        # compatible notation.
+        #
+        # note: If the file does not exist, it will be created when the
+        #       first log message is produced. If the file does exist, it
+        #       is appended to and must be writable by the user as which
+        #       the Spamd server is running (see UserId directive).
+        #
+        FileLog NOTICE-EMERGENCY "/var/log/expurgate-spamd/expurgate-spamd.log" timestamp "%Y-%m-%d %H:%M:%S"
+
+        #
+        # ConsoleLog: If specified, write log messages in the given range
+        # to the system console (see console(4)).
+        # Optionally the format of the timestamps can be specified in strftime()
+        # compatible notation.
+        #
+        #ConsoleLog EMERGENCY timestamp "%Y-%m-%d %H:%M:%S"
+
+        #
+        # ErrorLog: If specified, write log messages in the given range
+        # to the standard error stream.
+        #
+        # note: If the Daemonize directive is used, the standard error
+        #       stream is closed after startup and will be unavailable
+        #       for logging.
+        #
+        #ErrorLog ALERT-EMERGENCY
+
+        #
+        # Subsection Messages.  Customize log messages.
+        #
+        # This subsection contains format strings for customized log
+        # messages. A format string may refer to run-time variables by
+        # enclosing them in parentheses preceded by a percent-sign,
+        # e.g. `%(varname)'.
+        #
+        #<Messages>
+        #    GENERAL-STARTUP  "eXpurgate Spamd v%(version) starting on %(listen-address)"
+        #    GENERAL-SHUTDOWN "eXpurgate Spamd shutting down"
+        #    PROTOCOL-CONNECT "[%(connection-id)] \
+        #                      Connect from %(peer) %(peer-product) protocol version %(peer-version)"
+        #    PROTOCOL-SCAN    "[%(custom-connection-id)] [%(connection-id)] \
+        #                      Scanned from %(mailfrom) to %(rcptto) ip %(sender-ip) by %(peer) \
+        #                      as %(type) exid %(expurgate-id) in %(scantime-ms) ms"
+        #    PROTOCOL-FAIL    "[%(custom-connection-id)] [%(connection-id)] \
+        #                      %(status-code) %(status) %(error-prefix): %(error)"
+        #    PROTOCOL-EXT-DAEMON-FAIL "[%(custom-connection-id)] [%(connection-id)] \
+        #                      %(ext-daemon-name) scan failed exid %(expurgate-id) error \"%(error)\""
+        #</Messages>
+    </Logging>
+
+
+
+    ### Section 3.  Spamd server configuration
+    #
+    # The directives in this section affect the Spamd server configuration.
+    #
+    <Spamd>
+        #
+        # ListenAddress: Listen for incoming connections at the IP address
+        # and port specified, using an IPv4 socket.
+        #
+        # Default: 127.0.0.1:783
+        ListenAddress 0.0.0.0:{{ .Values.global.expurgate.service.port }}
+
+        #
+        # DataTimeout: If specified, indicates the number of seconds
+        # the eXpurgate Spamd will wait for its client before timing out.
+        #
+        # note: Zero means no wait, _not_ ``wait forever''.
+        #
+        # Default: 300
+        #DataTimeout 300
+
+        #
+        # MaxConnections: The maximum number of concurrent client
+        # connections.
+        #
+        # Default: 1000
+        #MaxConnections 1000
+
+        #
+        # ListenQueue: The maximum length the queue of pending incoming
+        # connections may grow to (see listen(2)).
+        #
+        # Default: 60
+        #ListenQueue 60
+
+        #
+        # Hostname: SPAMD hostname, defaults to `localhost' if not set.
+        #
+        # note: This domain is used to complete the username sent
+        #       via the Spam Assassin protocol's ``user'' header field to
+        #       an e-mail address - and finally set the `RCPT TO' information
+        #       in the scanning engine.
+        #
+        # Default: none
+        #Hostname recipientdomain.com
+
+        #
+        # IgnoreUserHeader: Do not set the recipient to the username reported
+        # by the Spamc client.
+        #
+        # Default: no
+        #IgnoreUserHeader yes
+
+        #
+        # OutboundHeaders: Include eXternate outbound headers in responses
+        # that return message headers.
+        #
+        # Default: no
+        #OutboundHeaders yes
+
+        #
+        # MaxContentLength: Accept messages up to this size limit as reported
+        # by the client via the ``content-length'' header (in bytes). The
+        # default `spamc' has its size limit at 500k bytes.
+        #
+        # Default: 0 = unlimited
+        #MaxContentLength 100000
+    </Spamd>
+
+
+
+    ### Section 4.  Mail scanning engine configuration
+    #
+    # This section configures the eXpurgate mail scanning and
+    # classification engine.
+    #
+    <SpamEngine>
+        #
+        # Server: The hostname and port of an Exdb server.
+        #
+        # note: This option may be specified multiple times. Hostname
+        #       and port must be separated by a colon, and may be
+        #       followed by the keyword `prio' and a numeric priority.
+        #       Hosts with a lower priority are tried _before_ hosts
+        #       with a higher priority.
+        #
+        Server exa.expurgate.net:55555 prio 0
+        Server exb.expurgate.net:55555 prio 0
+        Server exa.expurgate.de:55555 prio 1
+        Server exb.expurgate.de:55555 prio 1
+
+        #
+        # FailDelay: When failing to open a connection to an eXpurgate
+        # database server, the IP address of that server will not be
+        # considered for the specified amount of time. Use zero seconds to
+        # prevent marking IP addresses as failed, e.g. if connecting to a
+        # loadbalanced endpoint.
+        #
+        # Default: 5s
+        #FailDelay 0s
+
+        #
+        # SocksProxy: The hostname and port of a SOCKS proxy providing
+        #             access to the eXpurgate servers through a firewall.
+        #
+        # note: Specification of username and password is optional.
+        #
+        # Default: none
+        #SocksProxy 192.168.1.1:1080 user "proxyuser" password "secret"
+
+        #
+        # ScanTimeout: Fail scan requests exceeding the specified limit.
+        #
+        # Default: 0 = unlimited
+        #ScanTimeout 10s
+
+        #
+        # DangerousExtensions: The list of dangerous file extensions.
+        #
+        # note: This list is a quoted string of comma-separated filename
+        #       extensions. Any mail attachments with a file extension
+        #       contained in this list will be classified as dangerous.
+        #
+        # Default: ade, adp, app, asp, bas, bat, bhx, cab, ceo, chm, cmd,
+        #          com, cpl, crt, csr, der, dotm, exe, fxp, hlp, hta, inf,
+        #          ins, isp, its, js, jse, lnk, mad, maf, mag, mam, mar,
+        #          mas, mat, mde, mim, msc, msi, msp, mst, ole, pcd, pif,
+        #          potm, ppsm, pptm, reg, scr, sct, shb, shs, url, vb, vbe,
+        #          vbmacros, vbs, vsw, wmd, wmz, ws, wsc, wsf, wsh, xla,
+        #          xlam, xltm, xxe
+        #DangerousExtensions "exe,zip"
+
+        #
+        # ArchiveExtensions: File extensions which are handled as archive,
+        # ie. whose contents are checked for files with dangerous extensions.
+        #
+        # The following archive file formats are supported: ZIP, RAR, LHA, LHZ, CAB,
+        # ISO9660, CPIO, TAR, GZ, AR and PAX.
+        #
+        # note: eXpurgate will determine the format of an attachment itself, the
+        # extensions provided here are used to select the attachments to scan.
+        #
+        # Default: arj, cab, jar, lha, rar, tar, zip
+        #ArchiveExtensions "arj,zip"
+
+        #
+        # EnableGtube: Enable the ``Generic Test for Unsolicited Bulk Email.''
+        #
+        # note: see http://spamassassin.apache.org/gtube/
+        #
+        # Default: no
+        #EnableGtube yes
+
+        #
+        # HandleAsSpam: Change the classification of messages.
+        #
+        # note: The original mail classification returned by the eXpurgate
+        #       engine via the `X-purgate' headers is unchanged - yet this
+        #       directive indicates whether eXpurgate Spamd should respond
+        #       for the given mail type with a `spam' response via the
+        #       Spam Assassin protocol.
+        #
+        #HandleAsSpam Bulk.Pornography
+        #HandleAsSpam Bulk.Advertisement
+
+        #
+        # DKIM check configuration subsection.
+        #
+        # This subsection contains directives to configure the DKIM check based on
+        # Authentication-Results header within the sender rules.
+        #
+        <Dkim>
+            #
+            # Enable: Activate sender rules with DKIM checks.
+            #
+            # Default: no
+            #Enable Yes
+
+            #
+            # AuthenticationResultsHeaderRegex: Trust Authentication-Results
+            # headers matching the specified regular expression.
+            #
+            # Default: none
+            #AuthenticationResultsHeaderRegex /^authserver\.example\.com/
+        </Dkim>
+
+        #
+        # Antivir configuration subsection.
+        #
+        # This subsection contains directives to configure the virus scanner.
+        #
+        <Antivir>
+            #
+            # Enable: Activate or deactivate the virus scanner.
+            #
+            # Default: no
+            #Enable yes
+
+            #
+            # Server: Hostname and port of the virus scanner daemon.
+            #
+            # Default: 127.0.0.1:55556
+            #Server av.example.com:12345
+
+            #
+            # ProductId: Specify an Antivir product ID as a quoted string.
+            #
+            # Default: The Antivir product ID used by eXpurgate.
+            #ProductId "12345"
+
+            #
+            # MaxPoolSize: Maximal number of simultaneous connections.
+            #
+            # Default: 3
+            #MaxPoolSize 30
+
+            #
+            # MaxScanDepth: Ignore archives nested beyond the indicated depth.
+            #
+            # note: Use zero to disable scanning of archives.
+            #
+            # Default: 5
+            #MaxScanDepth 5
+
+            #
+            # ScanTimeout: Set a limit on the scan time.
+            #
+            # Default: 60s
+            #ScanTimeout 10s
+
+            #
+            # ContinueOnError: Do not abort processing on AV scan or
+            #                  communication errors, just skip over the AV
+            #                  result.
+            #
+            # Default: no
+            #ContinueOnError yes
+
+            #
+            # Extensions: If specified, scan mail attachments with a file
+            #             extension contained in this list.
+            #
+            # note: The extensions list is expected to consist of a quoted
+            #       string of comma-separated filename extensions.  If this
+            #       parameter is set to the empty string "", ie. the
+            #       `Extensions' directive is given without a specific list,
+            #       all parts of a mail (inclusive of the text body) will be
+            #       scanned.  If this parameter is not given at all or
+            #       commented out, a built-in set of default, exemplary
+            #       extensions denoting ie. executable file types is used.
+            #
+            # Default: ade, adp, app, asp, bas, bat, bhx, cab, ceo, chm,
+            #          cmd, com, cpl, crt, csr, der, exe, fxp, hlp, hta,
+            #          inf, ins, isp, its, js, jse, lnk, mad, maf, mag,
+            #          mam, mar, mas, mat, mde, mim, msc, msi, msp, mst,
+            #          ole, pcd, pif, reg, scr, sct, shb, shs, vb, vbe,
+            #          vbmacros, vbs, vsw, wmd, wmz, ws, wsc, wsf, wsh,
+            #          xxe, cla, class, dll, drv, fon, ocx, sys, vxd, doc,
+            #          docm, docx, dot, dotm, dotx, mda, mdb, pot, potm,
+            #          potx, pps, ppsm, ppsx, ppt, pptm, pptx, ppo, rtf,
+            #          xls, xlsb, xlsm, xlsx, xlt, emf, flt, jfif, jif,
+            #          jng, jp2, jpe, jpeg, jpg, png, swf, wmd, wmf, ace,
+            #          arj, bz2, cab, cpio, gz, gzip, jar, lha, lzh, rar,
+            #          rpm, tar, tbz2, tgz, zip, zoo
+            #Extensions "exe,rpm,xlsx"
+        </Antivir>
+
+        #
+        # Cyren Malware Detection Engine configuration subsection.
+        #
+        # This subsection contains directives to configure the Cyren Malware
+        # Detection Engine.
+        #
+        <CyrenAv>
+            #
+            # Enable: Activate or deactivate the Cyren Malware Detection Engine.
+            #
+            # Default: no
+            #Enable yes
+
+            #
+            # Server: Hostname and port of the Cyren Malware Detection Engine.
+            #
+            # Default: 127.0.0.1:55558
+            #Server av.example.com:12345
+
+            #
+            # MaxPoolSize: Maximal number of simultaneous connections.
+            #
+            # Default: 3
+            #MaxPoolSize 30
+
+            #
+            # ScanTimeout: Set a limit on the scan time.
+            #
+            # Default: 60s
+            #ScanTimeout 10s
+
+            #
+            # ContinueOnError: Do not abort processing on AV scan or
+            #                  communication errors, just skip over the AV
+            #                  result.
+            #
+            # Default: no
+            #ContinueOnError yes
+
+            #
+            # Extensions: If specified, scan mail attachments with a file
+            #             extension contained in this list.
+            #
+            # note: The extensions list is expected to consist of a quoted
+            #       string of comma-separated filename extensions.  If this
+            #       parameter is set to the empty string "", ie. the
+            #       `Extensions' directive is given without a specific list,
+            #       all parts of a mail (inclusive of the text body) will be
+            #       scanned.  If this parameter is not given at all or
+            #       commented out, a built-in set of default, exemplary
+            #       extensions denoting ie. executable file types is used.
+            #
+            # Default: ade, adp, alz, app, asp, bas, bat, bhx, cab, ceo,
+            #          chm, cmd, com, cpl, crt, csr, daa, dat, der, egg,
+            #          eml, exe, fxp, hfs, hlp, hta, htm, html, hqx, img,
+            #          inf, ins, iso, isp, its, js, jse, lnk, mad, maf,
+            #          mag, mam, mar, mas, mat, mde, mim, msc, msg, msi,
+            #          msp, mst, ole, pcd, pif, reg, scr, sct, shb, shs,
+            #          url, vb, vbe, vbmacros, vbs, vsw, wmd, wmz, ws,
+            #          wsc, wsf, wsh, xxe, bin, cla, class, dll, dmg,
+            #          drv, fon, ocx, sys, vxd, doc, docm, docx, dot,
+            #          dotm, dotx, mda, mdb, pot, potm, potx, pps, ppsm,
+            #          ppsx, ppt, pptm, pptx, ppo, rtf, xla, xlam, xls,
+            #          xlsb, xlsm, xlsx, xlt, xltm, emf, flt, jfif, jif,
+            #          jng, jp2, jpe, jpeg, jpg, png, swf, wmd, wmf, 7z,
+            #          ace, ar, arj, bz2, cab, cpio, gz, gzip, jar, lha,
+            #          lzh, onepkg, onetmp, onetoc, onetoc2, rar, rpm,
+            #          tar, tbz2, tgz, xz, z, zip, zoo
+            #Extensions ""
+        </CyrenAv>
+
+        #
+        # Ikarus AV daemon configuration subsection.
+        #
+        # This subsection contains directives to configure using Ikarus AV daemon.
+        #
+        <IkarusAv>
+            # Enable: Activate to use the Ikarus AV daemon.
+            #
+            # Default: no
+            #Enable yes
+
+
+            # Server: Hostname and port of the Ikarus AV daemon.
+            #
+            # Default: 127.0.0.1:55559
+            #Server av.example.com:12345
+
+
+            # MaxPoolSize: Maximal number of simultaneous connections.
+            #
+            # Default: 3
+            #MaxPoolSize 30
+
+
+            # ScanTimeout: Set a limit on the scan time.
+            #
+            # Default: 60s
+            #ScanTimeout 10s
+
+
+            # ContinueOnError: Do not abort processing on AV scan or
+            # communication errors, just skip over the AV result.
+            #
+            # Default: no
+            #ContinueOnError yes
+
+
+            # Extensions: File extensions which should be scanned.
+            #
+            # note: The extensions list is expected to consist of a quoted
+            #       string of comma-separated filename extensions.  If this
+            #       parameter is set to the empty string "", ie. the
+            #       `Extensions' directive is given without a specific list,
+            #       all parts of a mail (inclusive of the text body) will be
+            #       scanned.  If this parameter is not given at all or
+            #       commented out, a built-in set of default, exemplary
+            #       extensions denoting ie. executable file types is used.
+            #
+            # Default: ade, adp, alz, app, asp, bas, bat, bhx, cab, ceo,
+            #          chm, cmd, com, cpl, crt, csr, daa, dat, der, egg,
+            #          eml, exe, fxp, hfs, hlp, hta, htm, html, hqx, img,
+            #          inf, ins, iso, isp, its, js, jse, lnk, mad, maf,
+            #          mag, mam, mar, mas, mat, mde, mim, msc, msg, msi,
+            #          msp, mst, ole, pcd, pif, reg, scr, sct, shb, shs,
+            #          url, vb, vbe, vbmacros, vbs, vsw, wmd, wmz, ws,
+            #          wsc, wsf, wsh, xxe, bin, cla, class, dll, dmg,
+            #          drv, fon, ocx, sys, vxd, doc, docm, docx, dot,
+            #          dotm, dotx, mda, mdb, pot, potm, potx, pps, ppsm,
+            #          ppsx, ppt, pptm, pptx, ppo, rtf, xla, xlam, xls,
+            #          xlsb, xlsm, xlsx, xlt, xltm, emf, flt, jfif, jif,
+            #          jng, jp2, jpe, jpeg, jpg, png, swf, wmd, wmf, 7z,
+            #          ace, ar, arj, bz2, cab, cpio, deb, gz, gzip, jar,
+            #          lha,lzh, rar, rpm, tar, tbz2, tgz, xz, z, zip, zoo
+            #Extensions ""
+        </IkarusAv>
+
+        # Subsection NoFilter.  Do not scan locally originated mail.
+        #
+        # note: The NoFilter feature is not supposed to be used on servers
+        #       accepting emails directly from the internet, it should be
+        #       used only for machines inside your local infrastructure.
+        #
+        <NoFilter>
+            # Enable: Activate local mail detection.
+            #
+            # Default: no
+            #Enable yes
+
+            # MaxReceivedHeaders: Maximal number of Received headers for
+            # a mail to be detected as local.
+            #
+            # Default: 0 = none
+            #MaxReceivedHeaders 1
+
+            # ReceivedHeaderRegex: Regular expression which all Received
+            # headers must match.
+            #
+            # Default: \[10(\.[0-9]{1,3}){3}\]|\[127(\.[0-9]{1,3}){3}\]|
+            #          \[172\.16(\.[0-9]{1,3}){2}\]|\[169\.254(\.[0-9]{1,3}){2}\]|
+            #          \[192\.168(\.[0-9]{1,3}){2}\]
+            #ReceivedHeaderRegex /192\.168\.1\./
+        </NoFilter>
+    </SpamEngine>
+{{- end }}

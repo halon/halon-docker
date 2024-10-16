@@ -1,0 +1,17 @@
+{{- if .Values.global.expurgate.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "expurgate.fullname" . }}
+  labels:
+    {{- include "expurgate.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.expurgate.service.type }}
+  ports:
+    - port: {{ .Values.global.expurgate.service.port }}
+      targetPort: expurgate
+      protocol: TCP
+      name: expurgate
+  selector:
+    {{- include "expurgate.selectorLabels" . | nindent 4 }}
+{{- end }}

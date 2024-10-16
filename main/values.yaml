@@ -23,6 +23,11 @@ global:
     service:
       type: ClusterIP
       port: 4010
+  expurgate:
+    enabled: false
+    service:
+      type: ClusterIP
+      port: 783
   smtpd:
     enabled: true
     service:
@@ -84,6 +89,15 @@ savdid:
   storage: 1Gi
   storageClassName: standard
   updateURL: https://sophos.halon.io/1/XXXXXXXXXX
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+expurgate:
+  replicaCount: 2
   # resources:
   #   limits:
   #     cpu: 100m

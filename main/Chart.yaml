@@ -16,6 +16,9 @@ dependencies:
   - name: savdid
     version: 0.1.0
     repository: "file://../savdid"
+  - name: expurgate
+    version: 0.1.0
+    repository: "file://../expurgate"
   - name: smtpd
     version: 0.1.0
     repository: "file://../smtpd"
