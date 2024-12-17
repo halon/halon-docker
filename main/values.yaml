@@ -1,10 +1,12 @@
 global:
   dlpd:
+    # The "halon-extras-dlp" package needs to be installed in the "smtpd" container if you want to enable this
     enabled: false
     service:
       type: ClusterIP
       port: 3000
   rated:
+    # The "halon-extras-rate" package needs to be installed in the "smtpd" container if you want to enable this
     enabled: false
     service:
       type: ClusterIP
@@ -14,16 +16,19 @@ global:
         type: ClusterIP
         port: 80
   sasid:
+    # The "halon-extras-sophos" package needs to be installed in the "smtpd" container if you want to enable this
     enabled: false
     service:
       type: ClusterIP
       port: 25315
   savdid:
+    # The "halon-extras-sophos" package needs to be installed in the "smtpd" container if you want to enable this
     enabled: false
     service:
       type: ClusterIP
       port: 4010
   expurgate:
+    # The "halon-extras-eleven" package needs to be installed in the "smtpd" container if you want to enable this
     enabled: false
     service:
       type: ClusterIP
