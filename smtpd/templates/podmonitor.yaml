@@ -1,0 +1,15 @@
+{{- if .Values.global.smtpd.prometheus.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "smtpd.fullname" . }}
+  labels:
+    {{- include "smtpd.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "smtpd.selectorLabels" . | nindent 6 }}
+  podMetricsEndpoints:
+    - port: prometheus
+      interval: 30s
+{{- end }}

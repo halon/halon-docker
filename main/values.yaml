@@ -37,6 +37,10 @@ global:
       service:
         type: ClusterIP
         port: 80
+    prometheus:
+      # The "halon-extras-prometheus" package needs to be installed in the "smtpd" container if you want to enable this
+      enabled: false
+      port: 9100
   web:
     enabled: true
     service:

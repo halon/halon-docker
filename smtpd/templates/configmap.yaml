@@ -30,6 +30,11 @@ data:
           port: {{ .Values.controlSocketPort }}
           srcfile: /etc/halon/smtpd-policy.yaml
           distfile: /tmp/smtpd-policy.yaml
+      {{- if .Values.global.smtpd.prometheus.enabled }}
+      - id: prometheus
+        config:
+          port: {{ .Values.global.smtpd.prometheus.port }}
+      {{- end }}
     environment:
       uuid:
         version: 4

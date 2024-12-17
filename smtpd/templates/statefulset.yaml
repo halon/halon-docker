@@ -40,6 +40,11 @@ spec:
             - name: smtp
               containerPort: {{ .Values.global.smtpd.service.port }}
               protocol: TCP
+            {{- if .Values.global.smtpd.prometheus.enabled }}
+            - name: prometheus
+              containerPort: {{ .Values.global.smtpd.prometheus.port }}
+              protocol: TCP
+            {{- end }}
           readinessProbe:
             tcpSocket:
               port: {{ .Values.global.smtpd.service.port }}
