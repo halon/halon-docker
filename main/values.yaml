@@ -1,3 +1,4 @@
+# These are the global settings that must be accessible fom all charts
 global:
   dlpd:
     # The "halon-extras-dlp" package needs to be installed in the "smtpd" container if you want to enable this
@@ -54,6 +55,7 @@ global:
       type: ClusterIP
       port: 80
 
+# These are the per-chart settings that do not need to be accessible from all other charts
 dlpd:
   replicaCount: 2
   # resources:
