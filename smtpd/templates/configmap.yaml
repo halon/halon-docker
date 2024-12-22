@@ -28,8 +28,6 @@ data:
           name: {{ include "smtpd.fullname" . }}
           namespace: {{ .Release.Namespace }}
           port: {{ .Values.controlSocketPort }}
-          srcfile: /etc/halon/smtpd-policy.yaml
-          distfile: /tmp/smtpd-policy.yaml
       {{- if .Values.global.smtpd.prometheus.enabled }}
       - id: prometheus
         config:
@@ -47,7 +45,6 @@ data:
       rlimit:
         nofile: 70000
       licensekey: /license.key
-      policyconf: /tmp/smtpd-policy.yaml
   smtpd-app.yaml: |
     version: "6.4"
     servers:
