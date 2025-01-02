@@ -18,8 +18,8 @@ RUN yum install -y halon-6.5.2 halon-extras-k8s-hqfmove-1.0.0 halon-extras-k8s-p
 
 RUN /usr/bin/install -d /var/run/halon
 
-RUN groupadd -g 1000 smtpd
-RUN useradd -u 1000 -g 1000 smtpd
+RUN groupadd -g 2000 smtpd
+RUN useradd -u 2000 -g 2000 smtpd
 RUN chown smtpd:smtpd /var/spool/halon/
 RUN chown smtpd:smtpd /var/spool/halon/tmp
 

@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y kubectl
 
 RUN apt-get install -y wget zip
 
-RUN groupadd -g 1000 savdid
-RUN useradd -u 1000 -g 1000 savdid
+RUN groupadd -g 2000 savdid
+RUN useradd -u 2000 -g 2000 savdid
 
 CMD [ "/opt/savdid/bin/savdid", "-c", "/etc/savdid/savdid.conf" ]

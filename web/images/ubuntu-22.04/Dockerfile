@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y halon-web=1.18.0
 
 ENV NODE_ENV=production
 
-RUN groupadd -g 1000 web
-RUN useradd -u 1000 -g 1000 web
+RUN groupadd -g 2000 web
+RUN useradd -u 2000 -g 2000 web
 
 CMD [ "/opt/halon/web/node/bin/node", "/opt/halon/web/dist/bin/server.js" ]

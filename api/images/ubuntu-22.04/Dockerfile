@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y halon-api=6.5.0
 
 ENV NODE_ENV=production
 
-RUN groupadd -g 1000 api
-RUN useradd -u 1000 -g 1000 api
+RUN groupadd -g 2000 api
+RUN useradd -u 2000 -g 2000 api
 
 CMD [ "/opt/halon/api/node/bin/node", "/opt/halon/api/dist/bin/server.js" ]

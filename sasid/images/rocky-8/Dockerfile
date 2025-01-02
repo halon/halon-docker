@@ -14,8 +14,8 @@ RUN echo "gpgkey=https://raw.githubusercontent.com/halon/pgp-keys/master/pgp-key
 RUN echo "enabled=1" >> /etc/yum.repos.d/Halon.repo
 RUN yum install -y sasid-5.1.3
 
-RUN groupadd -g 1000 sasid
-RUN useradd -u 1000 -g 1000 sasid
+RUN groupadd -g 2000 sasid
+RUN useradd -u 2000 -g 2000 sasid
 
 RUN mkdir -p /var/sasid/data
 RUN chown sasid:sasid /var/sasid/data

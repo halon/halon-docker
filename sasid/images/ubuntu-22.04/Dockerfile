@@ -12,8 +12,8 @@ RUN echo "deb https://repo.halon.io/ jammy stable" >> /etc/apt/sources.list.d/ha
 RUN echo "machine repo.halon.io login ${HALON_REPO_USER} password ${HALON_REPO_PASS}" >> /etc/apt/auth.conf
 RUN apt-get update && apt-get install -y sasid=5.1.3
 
-RUN groupadd -g 1000 sasid
-RUN useradd -u 1000 -g 1000 sasid
+RUN groupadd -g 2000 sasid
+RUN useradd -u 2000 -g 2000 sasid
 
 RUN mkdir -p /var/sasid/data
 RUN chown sasid:sasid /var/sasid/data

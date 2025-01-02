@@ -16,8 +16,8 @@ RUN yum install -y halon-dlpd-6.5.0
 
 RUN /usr/bin/install -d /var/run/halon
 
-RUN groupadd -g 1000 dlpd
-RUN useradd -u 1000 -g 1000 dlpd
+RUN groupadd -g 2000 dlpd
+RUN useradd -u 2000 -g 2000 dlpd
 RUN chown dlpd:dlpd /var/spool/halon/
 RUN chown dlpd:dlpd /var/spool/halon/tmp
 RUN /usr/bin/install -d var/spool/halon/tmp/dlpd

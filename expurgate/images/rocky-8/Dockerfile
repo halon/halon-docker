@@ -14,8 +14,8 @@ RUN echo "gpgkey=https://raw.githubusercontent.com/halon/pgp-keys/master/pgp-key
 RUN echo "enabled=1" >> /etc/yum.repos.d/Halon.repo
 RUN yum install -y expurgate-spamd-4.51.0
 
-RUN groupadd -g 1000 expurgate
-RUN useradd -u 1000 -g 1000 expurgate
+RUN groupadd -g 2000 expurgate
+RUN useradd -u 2000 -g 2000 expurgate
 
 RUN mkdir -p /var/log/expurgate-spamd
 RUN chown expurgate:expurgate /var/log/expurgate-spamd
