@@ -33,6 +33,11 @@
 				"ms-kubernetes-tools.vscode-kubernetes-tools"
 			]
 		}
+	},
+
+	"remoteEnv": {
+      "HALON_REPO_USER": "${localEnv:HALON_REPO_USER}",
+      "HALON_REPO_PASS": "${localEnv:HALON_REPO_PASS}"
 	}
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
