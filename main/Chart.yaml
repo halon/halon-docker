@@ -28,3 +28,6 @@ dependencies:
   - name: web
     version: 0.1.0
     repository: "file://../web"
+  - name: classifier
+    version: 0.1.0
+    repository: "file://../classifier"

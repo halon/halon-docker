@@ -1,0 +1,17 @@
+{{- if .Values.global.classifier.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "classifier.fullname" . }}
+  labels:
+    {{- include "classifier.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.classifier.service.type }}
+  ports:
+    - port: {{ .Values.global.classifier.service.port }}
+      targetPort: classifier
+      protocol: TCP
+      name: classifier
+  selector:
+    {{- include "classifier.selectorLabels" . | nindent 4 }}
+{{- end }}

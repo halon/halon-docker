@@ -23,5 +23,8 @@ dependencies:
 - name: web
   repository: file://../web
   version: 0.1.0
-digest: sha256:c679f31f9b7e63733fee910da18338e6f8b484977a46e0c9a8f679e286fde81b
-generated: "2025-01-29T17:46:28.956267718Z"
+- name: classifier
+  repository: file://../classifier
+  version: 0.1.0
+digest: sha256:10b4acb5297abc278a8010d58b516599843088b8747c286dbd21fc172d387be7
+generated: "2025-01-29T18:33:01.703426552Z"

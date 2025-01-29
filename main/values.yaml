@@ -25,6 +25,11 @@ global:
     service:
       type: ClusterIP
       port: 80
+  classifier:
+    enabled: false
+    service:
+      type: ClusterIP
+      port: 8000
   dlpd:
     # The "halon-extras-dlp" package needs to be installed in the "smtpd" container if you want to enable this
     enabled: false
@@ -99,7 +104,15 @@ web:
   #   requests:
   #     cpu: 100m
   #     memory: 128Mi
-
+classifier:
+  replicaCount: 2
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
 dlpd:
   replicaCount: 2
   # resources:
