@@ -23,11 +23,6 @@ data:
           name: {{ include "smtpd.fullname" . }}
           namespace: {{ .Release.Namespace }}
           port: {{ .Values.controlSocketPort }}
-      - id: k8s-policydivide
-        config:
-          name: {{ include "smtpd.fullname" . }}
-          namespace: {{ .Release.Namespace }}
-          port: {{ .Values.controlSocketPort }}
       {{- if .Values.global.smtpd.prometheus.enabled }}
       - id: prometheus
         config:
@@ -45,6 +40,11 @@ data:
       rlimit:
         nofile: 70000
       licensekey: /license.key
+    {{- if .Values.global.clusterd.enabled }}
+    cluster:
+      address: "{{ .Release.Name }}-clusterd.{{ .Release.Namespace }}.svc.cluster.local"
+      port: {{ .Values.global.clusterd.service.port }}
+    {{- end }}
   smtpd-app.yaml: |
     version: "6.4"
     servers:

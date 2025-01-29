@@ -1,0 +1,17 @@
+{{- if .Values.global.clusterd.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "clusterd.fullname" . }}
+  labels:
+    {{- include "clusterd.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.clusterd.service.type }}
+  ports:
+    - port: {{ .Values.global.clusterd.service.port }}
+      targetPort: cluster
+      protocol: TCP
+      name: cluster
+  selector:
+    {{- include "clusterd.selectorLabels" . | nindent 4 }}
+{{- end }}

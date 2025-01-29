@@ -1,4 +1,7 @@
 dependencies:
+- name: clusterd
+  repository: file://../clusterd
+  version: 0.1.0
 - name: dlpd
   repository: file://../dlpd
   version: 0.1.0
@@ -20,5 +23,5 @@ dependencies:
 - name: web
   repository: file://../web
   version: 0.1.0
-digest: sha256:5a1b9c61234408a227c851720ffe99c8becc4cc4cad3239d8f7ae51c1d9c19e4
-generated: "2024-10-16T09:07:15.803992043Z"
+digest: sha256:c679f31f9b7e63733fee910da18338e6f8b484977a46e0c9a8f679e286fde81b
+generated: "2025-01-29T17:46:28.956267718Z"

@@ -1,0 +1,17 @@
+{{- if .Values.global.clusterd.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "clusterd.fullname" . }}
+  labels:
+    {{- include "clusterd.labels" . | nindent 4 }}
+data:
+  clusterd.yaml: |
+    version: "1.0"
+    listen:
+      port: {{ .Values.global.clusterd.service.port }}
+    environment:
+      privdrop:
+        user: clusterd
+        group: clusterd
+{{- end }}

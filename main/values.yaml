@@ -1,5 +1,10 @@
 # These are the global settings that must be accessible fom all charts
 global:
+  clusterd:
+    enabled: true
+    service:
+      type: ClusterIP
+      port: 2530
   dlpd:
     # The "halon-extras-dlp" package needs to be installed in the "smtpd" container if you want to enable this
     enabled: false
