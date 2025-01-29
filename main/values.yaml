@@ -1,10 +1,30 @@
 # These are the global settings that must be accessible fom all charts
 global:
+  smtpd:
+    enabled: true
+    service:
+      type: ClusterIP
+      port: 25
+    api:
+      service:
+        type: ClusterIP
+        port: 80
+    prometheus:
+      # The "halon-extras-prometheus" package needs to be installed in the "smtpd" container if you want to enable this
+      enabled: false
+      port: 9100
+      # If a "PodMonitor" should be automatically created. This requires that the "Prometheus Operator" is installed in Kubernetes
+      monitor: false 
   clusterd:
     enabled: true
     service:
       type: ClusterIP
       port: 2530
+  web:
+    enabled: true
+    service:
+      type: ClusterIP
+      port: 80
   dlpd:
     # The "halon-extras-dlp" package needs to be installed in the "smtpd" container if you want to enable this
     enabled: false
@@ -39,28 +59,47 @@ global:
     service:
       type: ClusterIP
       port: 783
-  smtpd:
-    enabled: true
-    service:
-      type: ClusterIP
-      port: 25
-    api:
-      service:
-        type: ClusterIP
-        port: 80
-    prometheus:
-      # The "halon-extras-prometheus" package needs to be installed in the "smtpd" container if you want to enable this
-      enabled: false
-      port: 9100
-      # If a "PodMonitor" should be automatically created. This requires that the "Prometheus Operator" is installed in Kubernetes
-      monitor: false 
-  web:
-    enabled: true
-    service:
-      type: ClusterIP
-      port: 80
 
 # These are the per-chart settings that do not need to be accessible from all other charts
+smtpd:
+  replicaCount: 2
+  storage: 10Gi
+  storageClassName: standard
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+  # api:
+  #   resources:
+  #     limits:
+  #       cpu: 100m
+  #       memory: 128Mi
+  #     requests:
+  #       cpu: 100m
+  #       memory: 128Mi
+clusterd: {}
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+web:
+  users:
+    - username: admin
+      password: $2y$12$BzWuHfwX9qDhhomp4Oe/5.7FYwrk1sQfytTeoosv7tqXv/D8hOebO
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+
 dlpd:
   replicaCount: 2
   # resources:
@@ -116,36 +155,6 @@ savdid:
   #     memory: 128Mi
 expurgate:
   replicaCount: 2
-  # resources:
-  #   limits:
-  #     cpu: 100m
-  #     memory: 128Mi
-  #   requests:
-  #     cpu: 100m
-  #     memory: 128Mi
-smtpd:
-  replicaCount: 2
-  storage: 10Gi
-  storageClassName: standard
-  # resources:
-  #   limits:
-  #     cpu: 100m
-  #     memory: 128Mi
-  #   requests:
-  #     cpu: 100m
-  #     memory: 128Mi
-  # api:
-  #   resources:
-  #     limits:
-  #       cpu: 100m
-  #       memory: 128Mi
-  #     requests:
-  #       cpu: 100m
-  #       memory: 128Mi
-web:
-  users:
-    - username: admin
-      password: $2y$12$BzWuHfwX9qDhhomp4Oe/5.7FYwrk1sQfytTeoosv7tqXv/D8hOebO
   # resources:
   #   limits:
   #     cpu: 100m
