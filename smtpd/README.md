@@ -20,5 +20,5 @@ docker build -t halon/smtpd:6.5.5 -f images/ubuntu-24.04/Dockerfile \
              --build-arg HALON_REPO_USER=${HALON_REPO_USER} \
              --build-arg HALON_REPO_PASS=${HALON_REPO_PASS} \
              --platform=linux/amd64 \
-             images/ubuntu-22.04
+             images/ubuntu-24.04
 ```
