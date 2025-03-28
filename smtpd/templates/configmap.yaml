@@ -7,7 +7,7 @@ metadata:
     {{- include "smtpd.labels" . | nindent 4 }}
 data:
   smtpd.yaml: |
-    version: "6.4"
+    version: "6.6"
     servers:
       - id: default
         listeners:
@@ -46,7 +46,7 @@ data:
       port: {{ .Values.global.clusterd.service.port }}
     {{- end }}
   smtpd-app.yaml: |
-    version: "6.4"
+    version: "6.6"
     servers:
       - id: default
         transport: mx
@@ -85,7 +85,7 @@ data:
           address: "{{ .Release.Name }}-dlpd.{{ .Release.Namespace }}.svc.cluster.local"
       {{- end }}
   api.yaml: |
-    version: "6.4"
+    version: "6.6"
     listeners:
       - port:  {{ .Values.global.smtpd.api.service.port }}
     environment:
@@ -96,7 +96,7 @@ data:
         smtpd:
           port: {{ .Values.controlSocketPort }}
   smtpd-policy.yaml: |
-    version: "6.4"
+    version: "6.6"
     rate:
       algorithm: tokenbucket
     policies:
