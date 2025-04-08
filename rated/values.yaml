@@ -9,7 +9,7 @@ api:
     repository: halon/api
     pullPolicy: Never
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "6.6.0"
+    tag: "6.6.1"
   resources: {}
 
 imagePullSecrets: []
