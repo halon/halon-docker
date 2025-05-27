@@ -45,6 +45,11 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+readinessProbe:
+  httpGet:
+    path: /healthy
+    port: 8080
+
 nodeSelector: {}
 
 tolerations: []

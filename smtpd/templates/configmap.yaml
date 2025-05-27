@@ -45,6 +45,9 @@ data:
       address: "{{ .Release.Name }}-clusterd.{{ .Release.Namespace }}.svc.cluster.local"
       port: {{ .Values.global.clusterd.service.port }}
     {{- end }}
+    monitor:
+      listener:
+        port: {{ .Values.readinessProbe.httpGet.port }}
   smtpd-app.yaml: |
     version: "6.6"
     servers:
