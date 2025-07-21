@@ -74,6 +74,12 @@ data:
     resolver:
       cache:
         size: 10000
+    queues:
+      pooling:
+        size: 1000
+        policy: grouping
+      grouping:
+        default: recipientdomain
     plugins: {{- if and (not .Values.global.rated.enabled) (not .Values.global.dlpd.enabled) }} []{{- end }}
       {{- if .Values.global.rated.enabled }}
       - id: rate
@@ -114,4 +120,12 @@ data:
             backoff-ttl: 3600
             backoff-disableable: true
             backoff-suspendable: true
+  smtpd-delivery.yaml: |
+    version: "6.7"
+    delivery:
+      default:
+        pooling:
+          enabled: true
+          transactions: 100
+          timeout: 10
 {{- end }}
