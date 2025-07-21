@@ -7,7 +7,7 @@ metadata:
     {{- include "clusterd.labels" . | nindent 4 }}
 data:
   clusterd.yaml: |
-    version: "1.0"
+    version: "1.1"
     listen:
       port: {{ .Values.global.clusterd.service.port }}
     environment:
