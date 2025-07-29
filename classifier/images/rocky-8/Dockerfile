@@ -12,11 +12,9 @@ RUN echo "baseurl=https://${HALON_REPO_USER}:${HALON_REPO_PASS}@repo.halon.io/di
 RUN echo "gpgcheck=1" >> /etc/yum.repos.d/Halon.repo
 RUN echo "gpgkey=https://raw.githubusercontent.com/halon/pgp-keys/master/pgp-keys/7F0A73B5.asc" >> /etc/yum.repos.d/Halon.repo
 RUN echo "enabled=1" >> /etc/yum.repos.d/Halon.repo
-RUN yum install -y halon-bounce-classifier-1.3.0
+RUN yum install -y halon-bounce-classifier-2.0.0
 
 RUN groupadd -g 2000 classifier
 RUN useradd -u 2000 -g 2000 classifier
 
-WORKDIR /opt/halon/bounce-classifier
-
-CMD [ "/opt/halon/bounce-classifier/venv/bin/python", "-m", "app.main" ]
+CMD [ "/opt/halon/bounce-classifier/sbin/bounce-classifier" ]
