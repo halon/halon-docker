@@ -23,11 +23,6 @@ data:
           name: {{ include "smtpd.fullname" . }}
           namespace: {{ .Release.Namespace }}
           port: {{ .Values.controlSocketPort }}
-      {{- if .Values.global.smtpd.prometheus.enabled }}
-      - id: prometheus
-        config:
-          port: {{ .Values.global.smtpd.prometheus.port }}
-      {{- end }}
     environment:
       uuid:
         version: 4
