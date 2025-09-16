@@ -45,7 +45,7 @@ You should now have an Elasticsearch service running on `https://elasticsearch-e
 To get the password for the `elastic` user you can run the below command.
 
 ```
-kubectl -n elastic-stack get secret elasticsearch-es-elastic-user -o go-template='{{.data.elastic | base64decode}}{{"\n"}}'`
+kubectl -n elastic-stack get secret elasticsearch-es-elastic-user -o go-template='{{.data.elastic | base64decode}}{{"\n"}}'
 ```
 
 ## Kubernetes / Helm
