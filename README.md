@@ -13,6 +13,7 @@ Below are the components we currently have instructions for.
 | `smtpd`      | The main MTA process              | [Link](smtpd/README.md)      |
 | `api`        | HTTP/JSON API                     | [Link](api/README.md)        |
 | `clusterd`   | Delivery Orchestrator             | [Link](clusterd/README.md)   |
+| `policyd`    | Halon Delivery Guru - Warmup      | [Link](policyd/README.md)   |
 | `web`        | Web administration                | [Link](web/README.md)        |
 | `classifier` | Delivery Guru: Bounce Classifier  | [Link](classifier/README.md) |
 | `rated`      | Rate limiting implementation      | [Link](rated/README.md)      |

@@ -17,6 +17,15 @@ global:
     service:
       type: ClusterIP
       port: 2530
+  policyd:
+    enabled: false
+    service:
+      type: ClusterIP
+      port: 2531
+    websocket:
+      service:
+        type: ClusterIP
+        port: 12345
   web:
     enabled: true
     service:
@@ -61,7 +70,8 @@ global:
     service:
       type: ClusterIP
       port: 783
-
+  elasticsearch:
+    url: https://elasticsearch-es-default.elastic-stack.svc.cluster.local:9200
 # These are the per-chart settings that do not need to be accessible from all other charts
 smtpd:
   replicaCount: 2
@@ -83,6 +93,14 @@ smtpd:
   #       cpu: 100m
   #       memory: 128Mi
 clusterd: {}
+  # resources:
+  #   limits:
+  #     cpu: 100m
+  #     memory: 128Mi
+  #   requests:
+  #     cpu: 100m
+  #     memory: 128Mi
+policyd: {}
   # resources:
   #   limits:
   #     cpu: 100m

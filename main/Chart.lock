@@ -2,6 +2,9 @@ dependencies:
 - name: clusterd
   repository: file://../clusterd
   version: 0.1.0
+- name: policyd
+  repository: file://../policyd
+  version: 0.1.0
 - name: dlpd
   repository: file://../dlpd
   version: 0.1.0
@@ -26,5 +29,5 @@ dependencies:
 - name: classifier
   repository: file://../classifier
   version: 0.1.0
-digest: sha256:10b4acb5297abc278a8010d58b516599843088b8747c286dbd21fc172d387be7
-generated: "2025-01-29T18:33:01.703426552Z"
+digest: sha256:c53116ef5f18e91507107ba1429edafa5140b8103a56f2c261002ed41228a880
+generated: "2025-09-16T11:29:57.552365252Z"

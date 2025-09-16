@@ -7,6 +7,9 @@ dependencies:
   - name: clusterd
     version: 0.1.0
     repository: "file://../clusterd"
+  - name: policyd
+    version: 0.1.0
+    repository: "file://../policyd"
   - name: dlpd
     version: 0.1.0
     repository: "file://../dlpd"

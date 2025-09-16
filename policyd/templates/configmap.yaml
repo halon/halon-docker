@@ -1,0 +1,27 @@
+{{- if .Values.global.policyd.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "policyd.fullname" . }}
+  labels:
+    {{- include "policyd.labels" . | nindent 4 }}
+data:
+  policyd.yaml: |
+    version: "1.0"
+    listeners:
+      - port: {{ .Values.global.policyd.service.port }}
+    websocket:
+      listener:
+        port: {{ .Values.global.policyd.websocket.service.port }}
+    elasticsearch:
+      index:
+        history: halon-delivery-attempts
+        actions: halon-policyd-actions
+      nodes:
+        - url: {{ .Values.global.elasticsearch.url }}
+    stats:
+      path: /var/lib/halon/policyd
+  policyd-app.yaml: |
+    version: "1.0"
+    ips: {}
+{{- end }}

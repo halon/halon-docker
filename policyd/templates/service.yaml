@@ -1,0 +1,33 @@
+{{- if .Values.global.policyd.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "policyd.fullname" . }}
+  labels:
+    {{- include "policyd.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.policyd.service.type }}
+  ports:
+    - port: {{ .Values.global.policyd.service.port }}
+      targetPort: policy
+      protocol: TCP
+      name: policy
+  selector:
+    {{- include "policyd.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ include "policyd.fullname" . }}-websocket"
+  labels:
+    {{- include "policyd.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.policyd.websocket.service.type }}
+  ports:
+    - port: {{ .Values.global.policyd.websocket.service.port }}
+      targetPort: websocket
+      protocol: TCP
+      name: websocket
+  selector:
+    {{- include "policyd.selectorLabels" . | nindent 4 }}
+{{- end }}
