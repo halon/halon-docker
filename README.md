@@ -26,6 +26,28 @@ Below are the components we currently have instructions for.
 | `savdid`     | Sophos Anti-Virus   | [Link](savdid/README.md)    |
 | `sasid`      | Sophos Anti-spam    | [Link](sasid/README.md)     |
 
+### Elasticsearch
+
+You can use the following Helm commands to install Elasticsearch.
+
+> [!IMPORTANT]
+> This installs Elasticsearch with a default configuration, see [here](https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart) and [here](https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/managing-deployments-using-helm-chart) for all the available configuration options.
+
+```
+helm repo add elastic https://helm.elastic.co
+helm repo update
+helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
+helm install es-quickstart elastic/eck-stack -n elastic-stack --create-namespace --set=eck-kibana.enabled=false
+```
+
+You should now have an Elasticsearch service running on `https://elasticsearch-es-default.elastic-stack.svc.cluster.local:9200`.
+
+To get the password for the `elastic` user you can run the below command.
+
+```
+kubectl -n elastic-stack get secret elasticsearch-es-elastic-user -o go-template='{{.data.elastic | base64decode}}{{"\n"}}'`
+```
+
 ## Kubernetes / Helm
 
 Below are the instructions for configuring and deploying the Helm charts.
