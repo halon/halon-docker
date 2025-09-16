@@ -26,9 +26,27 @@ Below are the components we currently have instructions for.
 | `savdid`     | Sophos Anti-Virus   | [Link](savdid/README.md)    |
 | `sasid`      | Sophos Anti-spam    | [Link](sasid/README.md)     |
 
+## Kubernetes / Helm
+
+Below are the instructions for configuring and deploying the Helm charts.
+
+### Configure
+
+The `main/values.yaml` file contains most of the settings that can be configured.
+Some additional settings can also be found in the `values.yaml` files inside each subfolder.
+
+### Deploy
+
+To deploy the Helm charts first build the images as described in each subfolder and then run the following commands:
+
+```
+helm dependency update main
+helm install halon main --render-subchart-notes
+```
+
 ### Elasticsearch
 
-You can use the following Helm commands to install Elasticsearch.
+You can use the following Helm commands to install [Elasticsearch](https://www.elastic.co/elasticsearch) which can be used with some of our components.
 
 > [!IMPORTANT]
 > This installs Elasticsearch with a default configuration, see [here](https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart) and [here](https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/managing-deployments-using-helm-chart) for all the available configuration options.
@@ -46,22 +64,4 @@ To get the password for the `elastic` user you can run the below command.
 
 ```
 kubectl -n elastic-stack get secret elasticsearch-es-elastic-user -o go-template='{{.data.elastic | base64decode}}{{"\n"}}'
-```
-
-## Kubernetes / Helm
-
-Below are the instructions for configuring and deploying the Helm charts.
-
-### Configure
-
-The `main/values.yaml` file contains most of the settings that can be configured.
-Some additional settings can also be found in the `values.yaml` files inside each subfolder.
-
-### Deploy
-
-To deploy the Helm charts first build the images as described in each subfolder and then run the following commands:
-
-```
-helm dependency update main
-helm install halon main --render-subchart-notes
 ```
