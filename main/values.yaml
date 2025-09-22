@@ -11,7 +11,7 @@ global:
         port: 80
     prometheus:
       # If a "PodMonitor" should be automatically created. This requires that the "Prometheus Operator" is installed in Kubernetes
-      monitor: false 
+      enabled: false 
   clusterd:
     enabled: true
     service:

@@ -1,4 +1,4 @@
-{{- if and (.Values.global.smtpd.prometheus.enabled) (.Values.global.smtpd.prometheus.monitor) }}
+{{- if .Values.global.smtpd.prometheus.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
