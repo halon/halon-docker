@@ -13,12 +13,14 @@ data:
     websocket:
       listener:
         port: {{ .Values.global.policyd.websocket.service.port }}
+    {{- if .Values.global.elasticsearch.enabled -}}
     elasticsearch:
       index:
         history: halon-delivery-attempts
         actions: halon-policyd-actions
       nodes:
         - url: {{ .Values.global.elasticsearch.url }}
+    {{- end }}
     stats:
       path: /var/lib/halon/policyd
   policyd-app.yaml: |

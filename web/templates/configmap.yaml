@@ -31,4 +31,12 @@ data:
       privdrop:
         user: web
         group: web
+    {{- if .Values.global.elasticsearch.enabled }}
+    elasticsearch:
+      index:
+        history: "halon-delivery-attempts"
+        policyd: "halon-policyd-actions"
+      nodes:
+        - url: {{ .Values.global.elasticsearch.url }}
+    {{- end }}
 {{- end }}
