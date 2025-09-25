@@ -21,7 +21,7 @@ data:
       {{- if .Values.global.policyd.enabled }}
       - id: policyd-client
         config:
-          address: ws://{{ .Release.Name }}-policyd.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.global.policyd.websocket.service.port }}
+          address: ws://{{ .Release.Name }}-policyd-websocket.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.global.policyd.websocket.service.port }}
       {{- end }}
       - id: k8s-hqfmove
         config:
