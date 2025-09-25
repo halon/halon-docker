@@ -20,6 +20,8 @@ data:
         actions: halon-policyd-actions
       nodes:
         - url: {{ .Values.global.elasticsearch.url }}
+      tls:
+        verify: false
     {{- end }}
     stats:
       path: /var/lib/halon/policyd
