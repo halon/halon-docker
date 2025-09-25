@@ -13,7 +13,7 @@ data:
     websocket:
       listener:
         port: {{ .Values.global.policyd.websocket.service.port }}
-    {{- if .Values.global.elasticsearch.enabled -}}
+    {{- if .Values.global.elasticsearch.enabled }}
     elasticsearch:
       index:
         history: halon-delivery-attempts
