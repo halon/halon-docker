@@ -74,6 +74,9 @@ global:
   elasticsearch:
     enabled: false
     url: https://elasticsearch-es-default.elastic-stack.svc.cluster.local:9200
+    # auth:
+    #   username: elastic
+    #   password: elastic
 # These are the per-chart settings that do not need to be accessible from all other charts
 smtpd:
   replicaCount: 2
