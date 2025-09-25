@@ -39,4 +39,9 @@ data:
       nodes:
         - url: {{ .Values.global.elasticsearch.url }}
     {{- end }}
+    {{- if .Values.global.policyd.enabled }}
+    policyd:
+      address: "{{ .Release.Name }}-policyd.{{ .Release.Namespace }}.svc.cluster.local"
+      port: {{ .Values.global.policyd.service.port }}
+    {{- end }}
 {{- end }}

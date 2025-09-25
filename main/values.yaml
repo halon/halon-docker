@@ -18,6 +18,7 @@ global:
       type: ClusterIP
       port: 2530
   policyd:
+    # The "halon-extras-policyd-client" package needs to be installed in the "smtpd" container if you want to enable this
     enabled: false
     service:
       type: ClusterIP

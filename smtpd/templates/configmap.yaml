@@ -18,6 +18,11 @@ data:
         config:
           reresolve: 5
       {{- end }}
+      {{- if .Values.global.policyd.enabled }}
+      - id: policyd-client
+        config:
+          address: ws://{{ .Release.Name }}-policyd.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.global.policyd.websocket.service.port }}
+      {{- end }}
       - id: k8s-hqfmove
         config:
           name: {{ include "smtpd.fullname" . }}
