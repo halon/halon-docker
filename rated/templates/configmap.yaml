@@ -29,7 +29,7 @@ data:
       controlsocket:
         port: {{ .Values.controlSocketPort }}
   api.yaml: |
-    version: "6.8"
+    version: "6.9"
     listeners:
       - port: {{ .Values.global.rated.api.service.port }}
     environment:
