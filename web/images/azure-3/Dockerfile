@@ -16,7 +16,7 @@ RUN tdnf install -y halon-web-1.23.0
 
 ENV NODE_ENV=production
 
-RUN groupadd -g 2000 api
-RUN useradd -u 2000 -g 2000 api
+RUN groupadd -g 2000 web
+RUN useradd -u 2000 -g 2000 web
 
-CMD [ "/opt/halon/api/node/bin/node", "/opt/halon/api/dist/bin/server.js" ]
+CMD [ "/opt/halon/web/node/bin/node", "/opt/halon/web/dist/bin/server.js" ]
